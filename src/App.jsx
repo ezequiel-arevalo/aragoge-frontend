@@ -1,18 +1,10 @@
 import './App.css'
-import { Header } from './components/Header'
-import { Home } from './pages/home/Home'
-import { Footer } from './components/Footer'
-import { Contact } from './pages/contact/Contact'
+import { AppRouter } from './router/AppRouter'
 
-function App() {
+export const App = () => {
   return (
     <>
-      <Header />
-      <Home />
-      <Contact />
-      <Footer />
+      <AppRouter />
     </>
   )
 }
-
-export default App
