@@ -1,7 +1,6 @@
 import { Input as ChakraInput, InputGroup, InputRightElement, IconButton, FormControl, FormLabel, FormErrorMessage, useBoolean } from '@chakra-ui/react';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
-const Input = ({ register, name, errors, label, type = 'text', inputProps = {}, disabled = false }) => {
+export const Input = ({ register, name, errors, label, type = 'text', inputProps = {}, disabled = false }) => {
   // Usamos el hook useBoolean de Chakra UI para manejar la visibilidad de la contraseña
   const [isPasswordVisible, setIsPasswordVisible] = useBoolean();
 
@@ -22,7 +21,7 @@ const Input = ({ register, name, errors, label, type = 'text', inputProps = {}, 
           <InputRightElement>
             <IconButton
               onClick={setIsPasswordVisible.toggle} // Usamos la función toggle de useBoolean
-              icon={isPasswordVisible ? <ViewIcon /> : <ViewOffIcon />}
+              icon={isPasswordVisible ? "Icono de ojo" : "Icono de ojo tachado"}
               variant="ghost"
               size="sm"
               aria-label={isPasswordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'}

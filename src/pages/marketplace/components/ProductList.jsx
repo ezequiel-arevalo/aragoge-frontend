@@ -1,48 +1,76 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Spinner } from '@chakra-ui/react';
-import ProductCard from './ProductCard';
-import { fetchProducts } from '@/services/productService';
-import { filterAndSortProducts } from '@/utilities/products';
+import { SimpleGrid } from '@chakra-ui/react';
+import { motion } from 'framer-motion'; // Importar framer-motion
+import { ProductCard } from './card/ProductCard';
 
-const ProductList = ({ category, priceSort, priceRange }) => {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
+// Datos de ejemplo para las tarjetas de productos
+const products = [
+  {
+    id: 1,
+    title: 'Ergonomic Desk Chair',
+    author: 'John Doe',
+    price: 199.99,
+    image: 'https://placehold.co/600x400',
+  },
+  {
+    id: 2,
+    title: 'Ergonomic Desk Chair',
+    author: 'John Doe',
+    price: 199.99,
+    image: 'https://placehold.co/600x400',
+  },
+  {
+    id: 3,
+    title: 'Ergonomic Desk Chair',
+    author: 'John Doe',
+    price: 199.99,
+    image: 'https://placehold.co/600x400',
+  },
+  {
+    id: 4,
+    title: 'Ergonomic Desk Chair',
+    author: 'John Doe',
+    price: 199.99,
+    image: 'https://placehold.co/600x400',
+  },
+  {
+    id: 5,
+    title: 'Ergonomic Desk Chair',
+    author: 'John Doe',
+    price: 199.99,
+    image: 'https://placehold.co/600x400',
+  },
+  {
+    id: 6,
+    title: 'Ergonomic Desk Chair',
+    author: 'John Doe',
+    price: 199.99,
+    image: 'https://placehold.co/600x400',
+  },
+  {
+    id: 7,
+    title: 'Ergonomic Desk Chair',
+    author: 'John Doe',
+    price: 199.99,
+    image: 'https://placehold.co/600x400',
+  },
+];
 
-  // Carga de productos
-  useEffect(() => {
-    setLoading(true);
-    fetchProducts().then((data) => {
-      setProducts(data);
-      setLoading(false);
-    });
-  }, []);
+// Crear el contenedor de animación con framer-motion
+const MotionSimpleGrid = motion.create(SimpleGrid); // Hacer animable el SimpleGrid
 
-  // Filtra y ordena los productos cuando cambian los filtros
-  useEffect(() => {
-    const filtered = filterAndSortProducts(products, category, priceRange, priceSort);
-    setFilteredProducts(filtered);
-  }, [category, priceSort, priceRange, products]);
-
+export const ProductList = () => {
   return (
-    <div className="relative p-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredProducts.map((product) => (
-          <motion.div
-            key={product.id}
-            layoutId={product.id}
-            onClick={() => setSelectedId(product.id)}
-            className="cursor-pointer p-4 border rounded-lg"
-          >
-            <ProductCard product={product} />
-          </motion.div>
-        ))}
-      </div>
-      {loading && <>Loading...<Spinner/></>}
-    </div>
+    <MotionSimpleGrid
+      columns={{ base: 1, sm: 2, md: 3, lg: 4}} // Distribución de columnas
+      spacing={4} // Espaciado entre las tarjetas
+      initial={{ opacity: 0, x: 100 }} // Estado inicial: opacidad 0, desplazadas hacia la derecha
+      animate={{ opacity: 1, x: 0 }} // Animación final: se mueven a su posición y se hacen visibles
+      transition={{ duration: 0.6, ease: 'easeInOut' }} // Control de duración y suavizado
+    >
+      {/* Mapeo de los productos y renderizado de las tarjetas */}
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))}
+    </MotionSimpleGrid>
   );
 };
-
-export default ProductList;

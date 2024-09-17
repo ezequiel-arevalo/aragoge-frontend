@@ -9,7 +9,7 @@ export const Textarea = ({ register, name, errors, label, textareaProps = {}, di
           id={name}
           {...register(name, { required: `El ${label} es obligatorio!` })}
           {...textareaProps}
-          className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md form-sizing"
+          className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md max-h-[300px]"
         />
         {errors[name] && <FormErrorMessage>{errors[name].message}</FormErrorMessage>}
       </FormControl>

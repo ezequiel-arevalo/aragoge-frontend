@@ -7,6 +7,7 @@ const colors = {
     fondo: '#F2F2F2',
     texto: '#131211',
     contenedores: '#FFFFFF',
+    aside: '#FFFFFF',
     span: '#595959',
     label: '#595959',
     imagenes: '#EAEAEA',
@@ -57,6 +58,7 @@ const colors = {
     fondo: '#131211',
     texto: '#FFFFFF',
     contenedores: '#1E1E1E',
+    aside: '#1E1E1E',
     span: '#A6A6A6',
     label: '#A6A6A6',
     imagenes: '#2A2A2A',
@@ -119,6 +121,9 @@ const styles = {
       bg: mode(colors.light.contenedores, colors.dark.contenedores)(props),
     },
     form: {
+      bg: mode(colors.light.contenedores, colors.dark.contenedores)(props),
+    },
+    aside: {
       bg: mode(colors.light.contenedores, colors.dark.contenedores)(props),
     },
     label: {

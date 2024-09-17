@@ -14,9 +14,3 @@
   --fuente-roboto: 'Roboto', sans-serif;
   --fuente-cardo: 'Cardo', serif;
 }
-
-.error-message {
-  color: red;
-  font-size: 0.875rem;
-}
-

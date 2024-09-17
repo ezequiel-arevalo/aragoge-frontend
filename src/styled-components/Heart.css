@@ -1,0 +1,32 @@
+.heart-container {
+    position: relative;
+    width: 70px; /* Ajusta el tamaño según el contenedor */
+    height: 70px;
+    overflow: hidden; /* Para que el corazón no se salga del contenedor */
+  }
+  
+  .heart {
+    position: absolute;
+    background: url("../assets/img/hearth.webp") no-repeat;
+    background-size: 2900%; /* Ajusta esto según tu sprite */
+    height: 100%; /* Asegúrate de que se ajuste al tamaño del contenedor */
+    width: 100%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    border: none;
+  }
+  
+  .heart.heart-active {
+    animation: animate 0.8s steps(28) 1;
+  }
+  
+  @keyframes animate {
+    from {
+      background-position: left;
+    }
+    to {
+      background-position: right;
+    }
+  }
+  

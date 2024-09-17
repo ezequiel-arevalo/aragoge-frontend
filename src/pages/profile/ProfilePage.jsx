@@ -1,9 +1,11 @@
 import { ProfileSection } from "./components/ProfileSection";
 
-export const ProfilePage = () => {
+const ProfilePage = () => {
   return (
     <>
       <ProfileSection />
     </>
   );
 };
+
+export default ProfilePage;

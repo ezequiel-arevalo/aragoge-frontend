@@ -1,16 +1,31 @@
-import { Box, Text } from '@chakra-ui/react';
-import { motion } from 'framer-motion'; // Importa Framer Motion
+import { Box, useToast } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import Input from '@/components/form/Input'; // Asegúrate de importar correctamente tu Input
-import { Textarea } from '@/components/form/TextArea';
+import { Input, Textarea} from '@/components/index'; // Cambié para usar input nativo
+import { useState } from 'react';
 
 const MotionBox = motion.create(Box);
 
 export const ContactSection = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const toast = useToast();
+  const [loading, setLoading] = useState(false);
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    setLoading(true);
+    // Simulamos el envío del formulario (podrías reemplazar esto con una llamada real a un API)
+    setTimeout(() => {
+      setLoading(false);
+      reset(); // Limpiar el formulario después de enviar
+      toast({
+        title: 'Formulario enviado.',
+        description: 'Tu mensaje ha sido enviado correctamente.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom-right',
+      });
+    }, 1500);
   };
 
   return (
@@ -18,16 +33,11 @@ export const ContactSection = () => {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      p={10}
       display="flex"
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      height="100vh"
-      className="shadow-lg rounded-lg"
     >
-      <Text fontSize="4xl" mb={4}>Contact Page</Text>
-
       <Box
         as="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -35,7 +45,7 @@ export const ContactSection = () => {
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        className="space-y-4 w-full max-w-md"
+        className="space-y-4 w-full max-w-3xl p-10"
       >
         <Input
           type="email"
@@ -54,17 +64,18 @@ export const ContactSection = () => {
         />
 
         <Textarea
-            name="message"
-            label="Mensaje"
-            register={register}
-            errors={errors}
+          name="message"
+          label="Mensaje"
+          register={register}
+          errors={errors}
         />
 
         <button
           type="submit"
-          className="w-full mt-4 bg-button-default-bg text-button-default-text hover:bg-button-hover-bg hover:text-button-hover-text active:bg-button-active-bg active:text-button-active-text py-2 px-4 rounded"
+          disabled={loading}
+          className="w-full mt-4 bg-button-hover-bg text-button-default-text hover:bg-button-hover-bg hover:text-button-hover-text active:bg-button-active-bg active:text-button-active-text py-2 px-4 rounded"
         >
-          Enviar
+          {loading ? 'Enviando...' : 'Enviar'}
         </button>
       </Box>
     </MotionBox>

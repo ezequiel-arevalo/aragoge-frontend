@@ -1,31 +1,33 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { MainLayout } from '@/layout/MainLayout';
-import { HomePage, ContactPage, LoginPage, RegisterPage, ProfilePage, MarketPage, ErrorPage} from '@/pages/index.js'
+import React, { Suspense } from 'react';
+
+const HomePage     = React.lazy(() => import('@/pages/home/HomePage.jsx'));
+const ContactPage  = React.lazy(() => import('@/pages/contact/ContactPage'));
+const LoginPage    = React.lazy(() => import('@/pages/login/LoginPage'));
+const RegisterPage = React.lazy(() => import('@/pages/register/RegisterPage'));
+const ProfilePage  = React.lazy(() => import('@/pages/profile/ProfilePage'));
+const MarketPage   = React.lazy(() => import('@/pages/marketplace/MarketPage'));
+const ErrorPage    = React.lazy(() => import('@/pages/error/ErrorPage'));
 
 export const AppRouter = () => {
   return (
-    <Routes>
-      <Route path="/" element={<MainLayout />}>
-        {/* Rutas para los usuarios */}
-        <Route path="home"                                     element={<HomePage     />} />
-        <Route path="marketplace"                              element={<MarketPage   />} />
-        <Route path="contact"                                  element={<ContactPage  />} />
-        <Route path="profile"                                  element={<ProfilePage  />} /> {/* profile/userId */}
-        <Route path="login"                                    element={<LoginPage    />} />
-        <Route path="register"                                 element={<RegisterPage />} />
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          {/* Rutas para los usuarios */}
+          <Route path="home"        element={<HomePage     />} />
+          <Route path="marketplace" element={<MarketPage   />} />
+          <Route path="contact"     element={<ContactPage  />} />
+          <Route path="profile"     element={<ProfilePage  />} />
+          <Route path="login"       element={<LoginPage    />} />
+          <Route path="register"    element={<RegisterPage />} />
 
-        {/* Rutas para los profesionales */}
-        {/* <Route path="professionals/home"                   element={<             />} /> */}
-        {/* <Route path="professionals/create"                 element={<             />} /> */}
-        {/* <Route path="professionals/edit/:serviceId"        element={<             />} /> */}
-        {/* <Route path="professionals/delete/:serviceId"      element={<             />} /> */}
-        {/* <Route path="professionals/profile"                element={<             />} /> */}
-        {/* <Route path="professionals/public/:professionalId" element={<             />} /> */}
-
-        {/* Redirecciones y error */}
-        <Route path="*" element={<ErrorPage />} />
-        <Route path="/" element={<Navigate to="/home" />} />
-      </Route>
-    </Routes>
+          {/* Redirecciones y error */}
+          <Route path="*" element={<ErrorPage />} />
+          <Route path="/" element={<Navigate to="/home" />} />
+        </Route>
+      </Routes>
+    </Suspense>
   );
 };
