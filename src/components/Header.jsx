@@ -1,12 +1,14 @@
 import { NavLink } from "react-router-dom";
 import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { useBoolean, useColorMode } from "@chakra-ui/react";
+import { routes } from '@/router/AppRouter';
+
 
 export const Header = () => {
   const [isMenuOpen, { toggle: toggleMenu, off: closeMenu }] = useBoolean();
   const [isProfileOpen, { toggle: toggleProfile, off: closeProfile }] = useBoolean();
   const { colorMode, toggleColorMode } = useColorMode();
-  const links = ["Home", "Marketplace", "Contact", "Login", "Register"];
+  const navLinks = routes.filter(route => route.path !== '*'); // Excluye la ruta de error si no la quieres en el menú
 
   return (
     <header className="w-full p-4 shadow-lg">
@@ -22,19 +24,18 @@ export const Header = () => {
 
         {/* Enlaces de navegación */}
         <ul className="hidden md:flex flex-row gap-6">
-          {links.map((link, index) => (
-            <li key={index}>
+        {navLinks.map((route, index) => (
+          <li key={index}>
             <NavLink
-              key={index}
-              to={`/${link.toLowerCase().replace(" ", "")}`}
+              to={`/${route.path}`}
               className={({ isActive }) => `${isActive ? "text-red-500" : ""}`}
-              aria-label={`Go to ${link}`}
+              aria-label={`Go to ${route.name}`}
             >
-              {link}
+              {route.name}
             </NavLink>
-            </li>
-          ))}
-        </ul>
+          </li>
+        ))}
+      </ul>
 
         {/* Botón y foto de perfil con dropdown */}
         <div className="flex items-center gap-4">
@@ -87,18 +88,17 @@ export const Header = () => {
       {/* Menú responsive */}
       <div className={`md:hidden ${isMenuOpen ? "block" : "hidden"}`}>
         <ul className="flex flex-col items-center gap-4">
-          {links.map((link, index) => (
-            <li key={index}>
-              <NavLink
-                to={`/${link.toLowerCase().replace(" ", "")}`}
-                className={({ isActive }) => `${isActive ? "text-red-500" : ""}`}
-                onClick={closeMenu}
-                aria-label={`Go to ${link}`}
-              >
-                {link}
-              </NavLink>
-            </li>
-          ))}
+        {navLinks.map((route, index) => (
+          <li key={index}>
+            <NavLink
+              to={`/${route.path}`}
+              className={({ isActive }) => `${isActive ? "text-red-500" : ""}`}
+              aria-label={`Go to ${route.name}`}
+            >
+              {route.name}
+            </NavLink>
+          </li>
+        ))}
         </ul>
       </div>
     </header>
