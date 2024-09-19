@@ -75,3 +75,26 @@ export const logoutUser = async (token) => {
     throw error;
   }
 };
+
+// Obtén los detalles del usuario por ID
+export const getUserDetails = async (userId, token) => {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/users/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || 'Error al obtener los detalles del usuario');
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error al obtener los detalles del usuario:", error);
+    throw error;
+  }
+};

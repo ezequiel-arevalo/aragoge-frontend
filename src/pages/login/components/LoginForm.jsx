@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,9 @@ export const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const toast = useToast();
+  
+  // Accedemos al token desde Redux (opcional, si lo necesitas en el componente)
+  const accessToken = useSelector((state) => state.user.accessToken);
 
   const onSubmit = (data) => {
     console.log('Datos enviados al backend:', data); // Verifica los datos que se envían
@@ -18,9 +21,6 @@ export const LoginForm = () => {
         if (response.payload.access_token) {
           const token = response.payload.access_token;
           console.log('Token recibido:', token); // Verifica el token recibido
-
-          // Guardar el token en localStorage o en Redux
-          localStorage.setItem('access_token', token);
 
           toast({
             title: 'Inicio de sesión exitoso.',

@@ -20,8 +20,6 @@ export const loginUserAction = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await loginUser(userData);
-      // Almacenar el token en el local storage
-      localStorage.setItem('access_token', response.access_token);
       return response;
     } catch (err) {
       return rejectWithValue(err.message || 'Error en el inicio de sesión');
@@ -32,12 +30,10 @@ export const loginUserAction = createAsyncThunk(
 // Acción asincrónica para logout
 export const logoutUserAction = createAsyncThunk(
   'user/logoutUser',
-  async (_, { rejectWithValue }) => {
-    const token = localStorage.getItem('access_token');
+  async (_, { getState, rejectWithValue }) => {
+    const token = getState().user.accessToken;  // Obtenemos el token del estado de Redux
     try {
       const response = await logoutUser(token);
-      // Eliminar el token del local storage
-      localStorage.removeItem('access_token');
       return response;
     } catch (err) {
       return rejectWithValue(err.message || 'Error en el cierre de sesión');
@@ -51,8 +47,15 @@ const userSlice = createSlice({
     loading: false,
     error: null,
     user: null, // Para almacenar la información del usuario logueado
+    accessToken: null,  // Almacenar el access_token
   },
-  reducers: {},
+  reducers: {
+    // Reducer para limpiar el estado en el logout
+    clearUserData: (state) => {
+      state.user = null;
+      state.accessToken = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Registro de usuario
@@ -78,6 +81,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.user = action.payload.user; // Guardar los datos del usuario
+        state.accessToken = action.payload.access_token; // Guardar el access_token en Redux
       })
       .addCase(loginUserAction.rejected, (state, action) => {
         state.loading = false;
@@ -92,7 +96,8 @@ const userSlice = createSlice({
       .addCase(logoutUserAction.fulfilled, (state) => {
         state.loading = false;
         state.error = null;
-        state.user = null; // Limpiar la información del usuario
+        state.user = null;
+        state.accessToken = null;  // Limpiar el access_token
       })
       .addCase(logoutUserAction.rejected, (state, action) => {
         state.loading = false;
@@ -100,5 +105,7 @@ const userSlice = createSlice({
       });
   },
 });
+
+export const { clearUserData } = userSlice.actions;
 
 export default userSlice.reducer;

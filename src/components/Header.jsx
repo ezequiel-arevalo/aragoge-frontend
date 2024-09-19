@@ -46,6 +46,7 @@ export const Header = () => {
           <NavLink to="/" className={({ isActive }) => `${isActive ? "text-red-500" : ""}`}>Home</NavLink>
           <NavLink to="/marketplace" className={({ isActive }) => `${isActive ? "text-red-500" : ""}`}>Marketplace</NavLink>
           <NavLink to="/contact" className={({ isActive }) => `${isActive ? "text-red-500" : ""}`}>Contact</NavLink>
+          <NavLink to="/profile" className={({ isActive }) => `${isActive ? "text-red-500" : ""}`}>profile</NavLink>
 
           {/* Mostrar Login/Register solo si no está logueado */}
           {!user && (
