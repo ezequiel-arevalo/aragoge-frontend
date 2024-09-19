@@ -2,7 +2,7 @@ import {FilterBar} from './components/FilterBar';
 import {ProductList} from './components/ProductList';
 import { Box, Flex } from '@chakra-ui/react';
 
-const MarketPage = () => {
+export const MarketPage = () => {
   return (
     <section className="mx-auto text-center p-4">
       <h2 className="text-h2 font-semibold font-title py-4">Market Page</h2>
@@ -23,5 +23,3 @@ const MarketPage = () => {
     </section>
   );
 };
-
-export default MarketPage;

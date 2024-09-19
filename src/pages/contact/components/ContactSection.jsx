@@ -48,14 +48,6 @@ export const ContactSection = () => {
         className="space-y-4 w-full max-w-3xl p-10"
       >
         <Input
-          type="email"
-          name="email"
-          label="Correo Electrónico"
-          register={register}
-          errors={errors}
-        />
-
-        <Input
           type="text"
           name="subject"
           label="Asunto"

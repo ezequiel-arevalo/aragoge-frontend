@@ -21,7 +21,7 @@ export const Input = ({ register, name, errors, label, type = 'text', inputProps
           <InputRightElement>
             <IconButton
               onClick={setIsPasswordVisible.toggle} // Usamos la función toggle de useBoolean
-              icon={isPasswordVisible ? "Icono de ojo" : "Icono de ojo tachado"}
+              icon={isPasswordVisible ? <i className="fa-solid fa-eye"></i> : <i className="fa-solid fa-eye-slash"></i>}
               variant="ghost"
               size="sm"
               aria-label={isPasswordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'}

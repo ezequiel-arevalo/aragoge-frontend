@@ -1,11 +1,10 @@
-import { ProfileSection } from "./components/ProfileSection";
+import { ProfileForm } from "./components/ProfileForm";
 
-const ProfilePage = () => {
+export const ProfilePage = () => {
   return (
-    <>
-      <ProfileSection />
-    </>
+    <section className="mx-auto text-center p-4">
+      <h2 className="text-h2 font-semibold font-title py-4">Profile Page</h2>
+      <ProfileForm />
+    </section>
   );
 };
-
-export default ProfilePage;

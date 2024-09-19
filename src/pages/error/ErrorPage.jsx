@@ -1,6 +1,6 @@
 import { ErrorSection } from "./components/ErrorSection"; // Asegúrate de ajustar la ruta si es necesario
 
-const ErrorPage = () => {
+export const ErrorPage = () => {
 
   return (
     <>
@@ -8,5 +8,3 @@ const ErrorPage = () => {
     </>
   );
 };
-
-export default ErrorPage;
