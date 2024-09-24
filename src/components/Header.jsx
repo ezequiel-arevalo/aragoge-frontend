@@ -1,3 +1,11 @@
+/**
+ * @file Header.jsx
+ * Componente `Header` que representa el encabezado de la aplicación.
+ * Contiene enlaces de navegación, un menú de usuario con opciones de perfil y logout,
+ * un botón para alternar entre modos de color (tema oscuro/claro), y un menú hamburguesa
+ * para dispositivos móviles.
+ */
+
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import routes from '@/router/routes';
@@ -6,21 +14,54 @@ import { FaUserCircle, FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa';
 import { Menu, MenuButton, MenuList, MenuItem, useColorMode } from '@chakra-ui/react'; 
 import { LogoutButton } from './button/LogoutButton';
 
+/**
+ * Componente `Header` que renderiza el encabezado principal de la aplicación.
+ * 
+ * Contiene navegación responsiva, un menú de usuario desplegable, y un botón
+ * para alternar entre temas oscuros y claros. También muestra o esconde enlaces
+ * de acuerdo a si el usuario está autenticado o no, y según el rol del usuario.
+ * 
+ * @component
+ * @example
+ * return <Header />
+ * 
+ * @returns {JSX.Element} El componente de encabezado.
+ */
 export const Header = () => {
-  const { user, accessToken } = useSelector(state => state.user);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const { user, accessToken } = useSelector(state => state.user); // Obtiene el usuario y el token de Redux
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Controla el estado del menú hamburguesa
+  const [isProfileOpen, setIsProfileOpen] = useState(false); // Controla el estado del menú de perfil
+  const { colorMode, toggleColorMode } = useColorMode(); // Maneja el modo de color (tema)
 
+  /**
+   * Función para alternar el menú hamburguesa en dispositivos móviles.
+   */
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const toggleProfile = () => setIsProfileOpen(!isProfileOpen);
-  const closeMenu = () => setIsMenuOpen(false);
-  const closeProfile = () => setIsProfileOpen(false);
-  const { colorMode, toggleColorMode } = useColorMode();
 
+  /**
+   * Función para alternar el menú de perfil de usuario.
+   */
+  const toggleProfile = () => setIsProfileOpen(!isProfileOpen);
+
+  /**
+   * Función para cerrar el menú hamburguesa.
+   */
+  const closeMenu = () => setIsMenuOpen(false);
+
+  /**
+   * Función para cerrar el menú de perfil.
+   */
+  const closeProfile = () => setIsProfileOpen(false);
+
+  /**
+   * Filtra las rutas de acuerdo con el estado de autenticación y el rol del usuario.
+   * 
+   * @returns {Array} Arreglo de rutas filtradas según la autenticación del usuario y su rol.
+   */
   const filteredLinks = routes.filter(route => {
-    if (route.isAuth && !accessToken) return false;
-    if (route.role && user?.rol_id !== route.role) return false;
-    if (accessToken && (route.name === 'Login' || route.name === 'Register')) return false;
+    if (route.isAuth && !accessToken) return false; // Oculta rutas que requieren autenticación si el usuario no está logueado
+    if (route.role && user?.rol_id !== route.role) return false; // Filtra rutas según el rol del usuario
+    if (accessToken && (route.name === 'Login' || route.name === 'Register')) return false; // Oculta login/register si el usuario está logueado
     return route.name;
   });
 
@@ -69,7 +110,7 @@ export const Header = () => {
                   </MenuItem>
                 </NavLink>
                 <NavLink to="/logout">
-                   <LogoutButton />
+                  <LogoutButton />
                 </NavLink>
               </MenuList>
             </Menu>
