@@ -61,3 +61,4 @@ Sigue estos pasos para configurar el proyecto en tu entorno local:
 - Para validar el HTML se utilizó [W3C VALIDATOR](https://validator.w3.org/#validate_by_input).
 - Para validar el CSS se utilizó [W3C VALIDATOR](https://jigsaw.w3.org/css-validator/#validate_by_input).
 - Para validar la estructura del sitio y sus headers se utilizó la extensión [HeadingsMap](https://chromewebstore.google.com/detail/headingsmap/flbjommegcjonpdmenkdiocclhjacmbi).
+- Para los iconos se utilizo el uso de react-icons [React Icons](https://www.npmjs.com/package/react-icons).

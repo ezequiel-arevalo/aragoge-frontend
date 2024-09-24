@@ -41,19 +41,22 @@ export const logoutUserAction = createAsyncThunk(
   }
 );
 
+const initialState = {
+  loading: false,
+  error: null,
+  user: JSON.parse(localStorage.getItem('user')) || null,  // Recuperar el usuario de localStorage
+  accessToken: localStorage.getItem('accessToken') || null,  // Recuperar el token de localStorage
+};
+
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    loading: false,
-    error: null,
-    user: null, // Para almacenar la información del usuario logueado
-    accessToken: null,  // Almacenar el access_token
-  },
+  initialState,
   reducers: {
-    // Reducer para limpiar el estado en el logout
     clearUserData: (state) => {
       state.user = null;
       state.accessToken = null;
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('user');
     },
   },
   extraReducers: (builder) => {
@@ -82,6 +85,10 @@ const userSlice = createSlice({
         state.error = null;
         state.user = action.payload.user; // Guardar los datos del usuario
         state.accessToken = action.payload.access_token; // Guardar el access_token en Redux
+        
+        // Guardar el token y el usuario en localStorage
+        localStorage.setItem('accessToken', action.payload.access_token);
+        localStorage.setItem('user', JSON.stringify(action.payload.user));
       })
       .addCase(loginUserAction.rejected, (state, action) => {
         state.loading = false;
@@ -98,6 +105,10 @@ const userSlice = createSlice({
         state.error = null;
         state.user = null;
         state.accessToken = null;  // Limpiar el access_token
+        
+        // Limpiar localStorage
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('user');
       })
       .addCase(logoutUserAction.rejected, (state, action) => {
         state.loading = false;
@@ -107,5 +118,4 @@ const userSlice = createSlice({
 });
 
 export const { clearUserData } = userSlice.actions;
-
 export default userSlice.reducer;

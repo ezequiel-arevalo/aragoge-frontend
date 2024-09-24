@@ -23,3 +23,11 @@ Color palette:
 Fonts
     * Roboto: ["Roboto", "sans-serif"],
     * Cardo: ["Cardo", "serif"],
+
+Consideraciónes a la hora del registro:
+
+Se debe enviar el mail, contraseña, rol, nombre, apellido, se debe tener en cuenta que el mail no este registrado, se tiene que tener en cuenta que la contraseña cumpla las especificaciones del backend
+
+Consideraciones a la hora de logueo:
+Se debe enviar el mail y contraseña
+El access_token debe guardarse en localstorage

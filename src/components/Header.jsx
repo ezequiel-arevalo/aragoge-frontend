@@ -1,81 +1,113 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import { Box, Button, Avatar, Menu, MenuButton, MenuList, MenuItem, useBoolean, useColorMode, useToast } from "@chakra-ui/react";
-import { useDispatch, useSelector } from 'react-redux';
-import { logoutUserAction } from '@/redux/user/userSlice';
+import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import routes from '@/router/routes';
+import { useState } from 'react';
+import { FaUserCircle, FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa';
+import { Menu, MenuButton, MenuList, MenuItem, useColorMode } from '@chakra-ui/react'; 
+import { LogoutButton } from './button/LogoutButton';
 
 export const Header = () => {
-  const [isMenuOpen, { toggle: toggleMenu, off: closeMenu }] = useBoolean();
-  const [isProfileOpen, { toggle: toggleProfile, off: closeProfile }] = useBoolean();
-  const { colorMode, toggleColorMode } = useColorMode();
-  const toast = useToast();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user); // Seleccionar si hay usuario logueado
+  const { user, accessToken } = useSelector(state => state.user);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
-  const handleLogout = async () => {
-    try {
-      await dispatch(logoutUserAction()).unwrap(); // Llamar la acción de logout
-      toast({
-        title: "Cerraste sesión con éxito.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-      navigate("/register"); // Redirigir a la página de registro
-    } catch (error) {
-      toast({
-        title: "Error al cerrar sesión.",
-        description: error,
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleProfile = () => setIsProfileOpen(!isProfileOpen);
+  const closeMenu = () => setIsMenuOpen(false);
+  const closeProfile = () => setIsProfileOpen(false);
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  const filteredLinks = routes.filter(route => {
+    if (route.isAuth && !accessToken) return false;
+    if (route.role && user?.rol_id !== route.role) return false;
+    if (accessToken && (route.name === 'Login' || route.name === 'Register')) return false;
+    return route.name;
+  });
 
   return (
     <header className="w-full p-4 shadow-lg">
       <nav className="container mx-auto flex justify-between items-center max-w-[1440px]">
-        <div className="flex items-center">
-          <div className="text-lg font-bold">
-            <NavLink to="/">Aragoge</NavLink>
-          </div>
+        {/* Nombre del sitio */}
+        <div className="text-lg font-bold">
+          <NavLink to="/" aria-label="Go to home page">
+            Aragoge
+          </NavLink>
         </div>
 
+        {/* Enlaces de navegación (solo en escritorio) */}
         <ul className="hidden md:flex flex-row gap-6">
-          <NavLink to="/" className={({ isActive }) => `${isActive ? "text-red-500" : ""}`}>Home</NavLink>
-          <NavLink to="/marketplace" className={({ isActive }) => `${isActive ? "text-red-500" : ""}`}>Marketplace</NavLink>
-          <NavLink to="/contact" className={({ isActive }) => `${isActive ? "text-red-500" : ""}`}>Contact</NavLink>
-          <NavLink to="/profile" className={({ isActive }) => `${isActive ? "text-red-500" : ""}`}>profile</NavLink>
-
-          {/* Mostrar Login/Register solo si no está logueado */}
-          {!user && (
-            <>
-              <NavLink to="/login" className={({ isActive }) => `${isActive ? "text-red-500" : ""}`}>Login</NavLink>
-              <NavLink to="/register" className={({ isActive }) => `${isActive ? "text-red-500" : ""}`}>Register</NavLink>
-            </>
-          )}
+          {filteredLinks.map(({ path, name }, index) => (
+            <li key={index}>
+              <NavLink
+                to={path}
+                className={({ isActive }) => `${isActive ? 'text-red-500' : ''}`}
+                aria-label={`Go to ${name}`}
+              >
+                {name}
+              </NavLink>
+            </li>
+          ))}
         </ul>
 
+        {/* Botón de perfil, dropdown y tema */}
         <div className="flex items-center gap-4">
-          {user && (
+          {/* Menú del perfil con dropdown */}
+          {accessToken && (
             <Menu isOpen={isProfileOpen}>
-              <MenuButton as={Avatar} size="sm" cursor="pointer" onClick={toggleProfile} />
+              <MenuButton
+                as="button"
+                className="flex items-center cursor-pointer"
+                onClick={toggleProfile}
+                aria-label="User profile menu"
+              >
+                <FaUserCircle className="text-2xl" />
+              </MenuButton>
               <MenuList>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <NavLink to="/profile">
+                  <MenuItem onClick={closeProfile} aria-label="Go to profile">
+                    <FaUserCircle className="mr-2" /> Profile
+                  </MenuItem>
+                </NavLink>
+                <NavLink to="/logout">
+                   <LogoutButton />
+                </NavLink>
               </MenuList>
             </Menu>
           )}
 
-          <Button size="sm" onClick={toggleColorMode}>
-            {colorMode === "light" ? 'Luna icon' : 'Sol icon'}
-          </Button>
+          {/* Botón para cambiar el tema */}
+          <button onClick={toggleColorMode} aria-label="Toggle theme" className="text-xl cursor-pointer">
+            {colorMode === 'light' ? <FaMoon /> : <FaSun />}
+          </button>
 
-          <Button size="sm" onClick={toggleMenu} mr={2}>
-            {isMenuOpen ? 'Cerrar' : 'Menu'}
-          </Button>
+          {/* Menú hamburguesa para móvil */}
+          <button
+            className="text-2xl md:hidden cursor-pointer"
+            onClick={toggleMenu}
+            aria-label={isMenuOpen ? 'Close Menu' : 'Open Menu'}
+          >
+            {isMenuOpen ? <FaTimes /> : <FaBars />}
+          </button>
         </div>
       </nav>
+
+      {/* Menú responsive */}
+      <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
+        <ul className="flex flex-col items-center gap-4">
+          {filteredLinks.map(({ path, name }, index) => (
+            <li key={index}>
+              <NavLink
+                to={path}
+                className={({ isActive }) => `${isActive ? 'text-red-500' : ''}`}
+                onClick={closeMenu}
+                aria-label={`Go to ${name}`}
+              >
+                {name}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </div>
     </header>
   );
 };
