@@ -126,7 +126,7 @@ const userSlice = createSlice({
       })
       .addCase(registerNewUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload; // Almacenar el mensaje de error en Redux
       })
 
       // Login de usuario

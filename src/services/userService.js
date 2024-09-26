@@ -29,10 +29,27 @@ export const registerUser = async (userData) => {
     });
 
     const data = await response.json();
-    console.log('Datos recibidos del backend (registro):', data);
-
+    console.log('Datos recibidos del backend (registro):', {data});
+    
+    // Si la respuesta no es exitosa, se lanza un error
     if (!response.ok) {
-      throw new Error(data.message || 'Error en el registro');
+      // Verifica si el mensaje de error viene en el campo 'message'
+      if (data.message) {
+        throw new Error(data.message); // Lanza el mensaje devuelto por el backend
+      }
+    
+      // Verifica si existen errores detallados en data.errors
+      if (data.errors) {
+        const errorMessages = Object.keys(data.errors).map((key) => {
+          return data.errors[key][0]; // Obtener el primer error de cada campo
+        });
+    
+        // Lanza el primer error disponible o un error por defecto
+        throw new Error(errorMessages.join(', ') || 'Error en el registro');
+      }
+    
+      // En caso de que no haya errores en el formato esperado
+      throw new Error('Error en el registro');
     }
 
     return data;
@@ -63,10 +80,10 @@ export const loginUser = async (userData) => {
     });
 
     const data = await response.json();
-    console.log('Datos recibidos del backend (logueo):', data);
+    console.log('Datos recibidos del backend (logueo):', {data});
 
     if (!response.ok) {
-      throw new Error(data.message || 'Error en el inicio de sesión');
+      throw new Error(data.error || 'Error en el inicio de sesión');
     }
 
     return data;
@@ -99,11 +116,11 @@ export const logoutUser = async (token) => {
     let data = null;
     if (response.status !== 204) { 
       data = await response.json();
-      console.log("Respuesta del servidor de logout:", data);
+      console.log("Respuesta del servidor de logout:", {data});
     }
 
     if (!response.ok) {
-      throw new Error(data?.message || 'Error en el cierre de sesión');
+      throw new Error(data?.errors || 'Error en el cierre de sesión');
     }
 
     return data;

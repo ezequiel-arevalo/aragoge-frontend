@@ -1,53 +1,23 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { registerNewUser } from '@/redux/user/userSlice';
-import { useToast } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/form/Input';
 import { InputPassword } from '@/components/form/InputPassword';
+import useAuth from '@/hooks/useAuth';
 
 export const RegisterForm = () => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm({
-    criteriaMode: 'all',
-  });
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const toast = useToast();
-  const { loading } = useSelector((state) => state.user);
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const { register: registerUser } = useAuth();
 
   const onSubmit = (data) => {
-    const userData = {
+    registerUser({
       first_name: data.first_name,
       last_name: data.last_name,
       email: data.email,
       password: data.password,
-    };
-
-    dispatch(registerNewUser(userData))
-      .then((response) => {
-        if (!response.error) {
-          toast({
-            title: 'Registro exitoso.',
-            description: 'Te has registrado correctamente.',
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-            position: 'bottom-right',
-          });
-          reset();
-          navigate('/login');
-        } else {
-          throw new Error(response.error.message || 'Error en el registro');
-        }
-      })
-      .catch((err) => {
-        console.error('Error en el registro:', err);
-      });
+    }, reset);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="p-6 rounded-md shadow-md w-full max-w-sm flex flex-col">
-      
+    <form onSubmit={handleSubmit(onSubmit)} className="p-6 rounded-md shadow-md w-full max-w-sm">
       {/* Input de Nombre */}
       <Input
         name="first_name"
@@ -86,17 +56,9 @@ export const RegisterForm = () => {
       <button
         type="submit"
         className="w-full mt-4 bg-button-default-bg text-button-default-text hover:bg-button-hover-bg hover:text-button-hover-text active:bg-button-active-bg active:text-button-active-text py-2 px-4 rounded"
-        disabled={loading}
       >
-        {loading ? 'Registrando...' : 'Registrarse'}
+        Registrarse
       </button>
-
-      <span
-        onClick={() => navigate('/login')}
-        className="cursor-pointer mt-4 text-sm block hover:underline mx-auto text-center"
-      >
-        ¿Ya tienes cuenta? Inicia sesión aquí
-      </span>
     </form>
   );
 };
