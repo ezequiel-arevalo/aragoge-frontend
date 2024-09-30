@@ -10,8 +10,8 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import routes from '@/router/routes';
 import { useState } from 'react';
-import { FaUserCircle, FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa';
-import { Menu, MenuButton, MenuList, MenuItem, useColorMode } from '@chakra-ui/react'; 
+import { FaUserCircle, FaBars, FaTimes } from 'react-icons/fa';
+import { Menu, MenuButton, MenuList, MenuItem, Img, Image } from '@chakra-ui/react'; 
 import { LogoutButton } from './button/LogoutButton';
 
 /**
@@ -31,7 +31,6 @@ export const Header = () => {
   const { user, accessToken } = useSelector(state => state.user); // Obtiene el usuario y el token de Redux
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Controla el estado del menú hamburguesa
   const [isProfileOpen, setIsProfileOpen] = useState(false); // Controla el estado del menú de perfil
-  const { colorMode, toggleColorMode } = useColorMode(); // Maneja el modo de color (tema)
 
   /**
    * Función para alternar el menú hamburguesa en dispositivos móviles.
@@ -81,7 +80,7 @@ export const Header = () => {
             <li key={index}>
               <NavLink
                 to={path}
-                className={({ isActive }) => `${isActive ? 'text-red-500' : ''}`}
+                className={({ isActive }) => `${isActive ? 'text-[#DA1641]' : ''}`}
                 aria-label={`Go to ${name}`}
               >
                 {name}
@@ -97,11 +96,16 @@ export const Header = () => {
             <Menu isOpen={isProfileOpen}>
               <MenuButton
                 as="button"
-                className="flex items-center cursor-pointer"
+                className="flex items-center cursor-pointer no-global-styles"
                 onClick={toggleProfile}
                 aria-label="User profile menu"
               >
-                <FaUserCircle className="text-2xl" />
+                <Image
+                  borderRadius='full'
+                  boxSize='50px'
+                  src='https://bit.ly/dan-abramov'
+                  alt='Dan Abramov'
+                />
               </MenuButton>
               <MenuList>
                 <NavLink to="/profile">
@@ -116,14 +120,9 @@ export const Header = () => {
             </Menu>
           )}
 
-          {/* Botón para cambiar el tema */}
-          <button onClick={toggleColorMode} aria-label="Toggle theme" className="text-xl cursor-pointer">
-            {colorMode === 'light' ? <FaMoon /> : <FaSun />}
-          </button>
-
           {/* Menú hamburguesa para móvil */}
           <button
-            className="text-2xl md:hidden cursor-pointer"
+            className="text-2xl md:hidden cursor-pointer no-global-styles"
             onClick={toggleMenu}
             aria-label={isMenuOpen ? 'Close Menu' : 'Open Menu'}
           >

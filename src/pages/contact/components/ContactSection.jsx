@@ -64,10 +64,9 @@ export const ContactSection = () => {
 
         <button
           type="submit"
-          disabled={loading}
-          className="w-full mt-4 bg-button-hover-bg text-button-default-text hover:bg-button-hover-bg hover:text-button-hover-text active:bg-button-active-bg active:text-button-active-text py-2 px-4 rounded"
+          className="w-full mt-4 bg-button-default-bg text-button-default-text hover:bg-button-hover-bg hover:text-button-hover-text active:bg-button-active-bg active:text-button-active-text py-2 px-4 rounded"
         >
-          {loading ? 'Enviando...' : 'Enviar'}
+          Enviar
         </button>
       </Box>
     </MotionBox>

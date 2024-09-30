@@ -59,6 +59,12 @@ export const RegisterForm = () => {
       >
         Registrarse
       </button>
+      <span
+        onClick={() => navigate('/login')}
+        className="cursor-pointer mt-4 text-sm block hover:underline mx-auto text-center"
+      >
+        ¿Tienes cuenta? Accede desde aquí
+      </span>
     </form>
   );
 };

@@ -25,45 +25,52 @@ const useAuth = () => {
 
         resetForm(); // Resetea el formulario después del login
         navigate('/'); // Redirige a la página de inicio
-      } else {
-        throw new Error('No se recibió el token');
       }
     } catch (err) {
-      console.error('Error durante el login:', {err});
+      const errorMessage = err.message || 'Hubo un problema con el inicio de sesión'; // Asegura que el mensaje sea legible
+
+      // Mostrar el mensaje de error en un toast
+      toast({
+        title: 'Error al iniciar sesión',
+        description: errorMessage, // El mensaje de error
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom-right',
+      });
     }
   };
 
+  // Función para manejar el registro
   const register = async (userData, resetForm) => {
     try {
       const response = await dispatch(registerNewUser(userData)).unwrap();
-  
-      // Manejar respuesta exitosa
-      toast({
-        title: 'Registro exitoso.',
-        description: 'Te has registrado correctamente.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'bottom-right',
-      });
-  
-      resetForm(); // Resetea el formulario después del registro
-      navigate('/login'); // Redirige al login
+
+      if (!response.error) {
+        toast({
+          title: 'Registro exitoso.',
+          description: 'Te has registrado correctamente.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'bottom-right',
+        });
+
+        resetForm(); // Resetea el formulario después del registro
+        navigate('/login'); // Redirige al login
+      }
     } catch (err) {
-      // Si el registro falla, mostramos el mensaje de error en el toast
       toast({
-        title: 'Error en el registro.',
-        description: err || 'Ocurrió un error durante el registro.',
+        title: 'Error al registrarse',
+        description: err, // El mensaje de error
         status: 'error',
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
         position: 'bottom-right',
       });
-  
-      console.error('Error en el registro:', err); // Verificar el error en la consola
     }
   };
-  
+
   return { login, register };
 };
 

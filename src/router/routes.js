@@ -1,3 +1,9 @@
+// Roles:
+/*
+  1: Admin
+  2: User
+  3: Profesional
+*/
 const routes = [
     {
       path: '/home',
@@ -38,9 +44,9 @@ const routes = [
     {
       path: '/professionals',
       name: 'Professionals',
-      component: 'HomeProfessionalsPage',
+      component: 'HomePagePro',
       isAuth: true,
-      role: 2,
+      role: 3,
     },
     {
       path: '/admin',

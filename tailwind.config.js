@@ -10,38 +10,11 @@ export default {
         // Colores para el tema claro
         'light-fondo': '#F2F2F2',
         'light-texto': '#131211',
-        'light-contenedores': '#FFFFFF',
-        'light-span': '#595959',
-        'light-imagenes': '#EAEAEA',
-
-        // Colores para el tema oscuro
-        'dark-fondo': '#131211',
-        'dark-texto': '#FFFFFF',
-        'dark-contenedores': '#1E1E1E',
-        'dark-span': '#A6A6A6',
-        'dark-imagenes': '#2A2A2A',
-
-        // Colores para el botón deshabilitado
-        'button-disabled-bg': '#FFE3E9',
-        'button-disabled-text': '#FF6D8D',
-
-        // Colores para el botón por defecto
-        'button-default-bg': '#F93A64',
-        'button-default-text': '#FFFFFF',
-
-        // Colores para el botón al pasar el cursor (hover)
-        'button-hover-bg': '#DA1641',
-        'button-hover-text': '#FFFFFF',
-
-        // Colores para el botón activo
-        'button-active-bg': '#C30D35',
-        'button-active-text': '#FFFFFF',
-
-        // Colores para los enlaces
-        'link-disabled': '#FFE3E9',
-        'link-default': '#F93A64',
-        'link-hover': '#DA1641',
-        'link-active': '#C30D35',
+        'light-div': '#FFFFFF',
+        'light-link': '#DA1641',
+        'light-focus': '#DA1641',
+        'light-gradient1': '#DA1641',
+        'light-gradient2': '#C30D35',
       },
       fontFamily: {
         'font-title': ['Roboto', 'sans-serif'],  // Fuente para títulos
@@ -59,23 +32,5 @@ export default {
       },
     },
   },
-  plugins: [
-    // Plugin para aplicar estilos globales
-    function({ addComponents }) {
-      addComponents({
-        'a:disabled': {
-          color: '#FFE3E9',
-        },
-        'a': {
-          color: '#F93A64',
-          '&:hover': {
-            color: '#DA1641',
-          },
-          '&:active': {
-            color: '#C30D35',
-          },
-        },
-      });
-    },
-  ],
+  plugins: [],
 }

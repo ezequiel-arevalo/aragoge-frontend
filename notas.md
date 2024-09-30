@@ -31,3 +31,17 @@ Se debe enviar el mail, contraseña, rol, nombre, apellido, se debe tener en cue
 Consideraciones a la hora de logueo:
 Se debe enviar el mail y contraseña
 El access_token debe guardarse en localstorage
+
+
+tema claro, oscuro
+
+p
+label
+span
+h1
+h2
+h3
+h4
+h5
+h6
+a

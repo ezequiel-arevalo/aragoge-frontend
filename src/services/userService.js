@@ -18,7 +18,7 @@ const URL = import.meta.env.VITE_API_KEY;
  * @throws {Error} Si ocurre un error durante el registro.
  */
 export const registerUser = async (userData) => {
-  const userWithRole = { ...userData, rol_id: 2 }; // Añadimos a la hora de registrar al usuario el ROL con el ID 2
+  const userWithRole = { ...userData, rol_id: 2 }; 
   try {
     const response = await fetch(`${URL}api/register`, {
       method: 'POST',
@@ -29,32 +29,17 @@ export const registerUser = async (userData) => {
     });
 
     const data = await response.json();
-    console.log('Datos recibidos del backend (registro):', {data});
-    
-    // Si la respuesta no es exitosa, se lanza un error
+
     if (!response.ok) {
-      // Verifica si el mensaje de error viene en el campo 'message'
-      if (data.message) {
-        throw new Error(data.message); // Lanza el mensaje devuelto por el backend
-      }
-    
-      // Verifica si existen errores detallados en data.errors
-      if (data.errors) {
-        const errorMessages = Object.keys(data.errors).map((key) => {
-          return data.errors[key][0]; // Obtener el primer error de cada campo
-        });
-    
-        // Lanza el primer error disponible o un error por defecto
-        throw new Error(errorMessages.join(', ') || 'Error en el registro');
-      }
-    
-      // En caso de que no haya errores en el formato esperado
-      throw new Error('Error en el registro');
+      const errorMessage = data.errors 
+        ? Object.values(data.errors).flat().join(', ') // Unir los mensajes de error
+        : data.message || 'Error en el registro';
+      throw new Error(errorMessage);
     }
 
     return data;
   } catch (error) {
-    throw error;
+    throw new Error(error.message || 'Error en el registro');
   }
 };
 
@@ -80,15 +65,17 @@ export const loginUser = async (userData) => {
     });
 
     const data = await response.json();
-    console.log('Datos recibidos del backend (logueo):', {data});
 
     if (!response.ok) {
-      throw new Error(data.error || 'Error en el inicio de sesión');
+      const errorMessage = data.errors 
+        ? Object.values(data.errors).flat().join(', ') 
+        : data.message || 'Error en el inicio de sesión';
+      throw new Error(errorMessage);
     }
 
     return data;
   } catch (error) {
-    throw error;
+    throw new Error(error.message || 'Error en el inicio de sesión');
   }
 };
 

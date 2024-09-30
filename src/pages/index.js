@@ -6,4 +6,4 @@ export * from './error/ErrorPage';
 export * from './login/LoginPage';
 export * from './register/RegisterPage';
 export * from './admin/HomeAdminPage';
-export * from './professionals/HomeProfessionalsPage'
+export * from './professionals/HomePagePro'
