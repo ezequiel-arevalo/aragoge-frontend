@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPlannings } from '@/redux/plannings/planningsSlice';
 import { PlanningCard } from './card/PlanningCard';
 import { SimpleGrid } from '@chakra-ui/react';
-import { SuggestedPlannings } from './suggested/SuggestedPlannings'; // Importar el nuevo componente
+import { SuggestedPlannings } from './suggested/SuggestedPlannings';
 
 export const ProductList = ({ selectedCategory }) => {
     const dispatch = useDispatch();
@@ -16,10 +16,13 @@ export const ProductList = ({ selectedCategory }) => {
     if (loading) return <p>Cargando planificaciones...</p>;
     if (error) return <p>Error: {error}</p>;
 
+    // Verificamos que items sea un objeto con un array en `data`
+    const plannings = items?.data || [];
+
     // Filtrar las planificaciones según la categoría seleccionada
     const filteredPlannings = selectedCategory
-        ? items.filter((planning) => planning.category_id === parseInt(selectedCategory))
-        : items;
+        ? plannings.filter((planning) => planning.category_id === parseInt(selectedCategory))
+        : plannings;
 
     return (
         <>

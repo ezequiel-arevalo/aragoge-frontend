@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Select } from '@chakra-ui/react';
-import { fetchCategories } from '@/services/categoriesService';
+import { fetchCategories } from '@/services/planningsService';
 
 export const CategoryFilter = ({ onCategoryChange }) => {
   const [categories, setCategories] = useState([]);
@@ -8,8 +8,11 @@ export const CategoryFilter = ({ onCategoryChange }) => {
   useEffect(() => {
     const getCategories = async () => {
       try {
-        const categoriesData = await fetchCategories();
-        console.log('Categorías obtenidas:', categoriesData); // Agregado
+        const response = await fetchCategories();
+        console.log('Categorías obtenidas:', response);
+        
+        // Accedemos a `data` que contiene el array de categorías
+        const categoriesData = response.data; 
         setCategories(categoriesData);
       } catch (error) {
         console.error('Error al obtener las categorías:', error);
@@ -21,7 +24,7 @@ export const CategoryFilter = ({ onCategoryChange }) => {
 
   const handleChange = (e) => {
     const value = e.target.value === "all" ? null : e.target.value;
-    console.log('Categoría seleccionada:', value); // Agregado
+    console.log('Categoría seleccionada:', value);
     onCategoryChange(value);
   };
 

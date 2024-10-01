@@ -2,7 +2,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import routes from './routes';
 import { MainLayout } from '@/layout/MainLayout';
-import * as Pages from '@/pages/index'; // Importa todas las páginas de una vez
+import * as Pages from '@/pages/index';
+import { PlanningDetailPage } from '@/pages/plannings/PlanningDetailPage';
 
 export const AppRouter = () => {
   const { user, accessToken } = useSelector(state => state.user);
@@ -26,6 +27,9 @@ export const AppRouter = () => {
           // Rutas públicas y privadas accesibles
           return <Route key={index} path={path} element={<PageComponent />} />;
         })}
+
+        {/* Ruta dinámica para planificación */}
+        <Route path="/planning/:id" element={<PlanningDetailPage />} />
 
         {/* Redirección por defecto */}
         <Route path="/" element={<Navigate to="/home" />} />

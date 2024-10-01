@@ -1,151 +1,75 @@
-/**
- * URL base de la API, obtenida desde el archivo .env
- * @constant {string}
- */
-const URL = import.meta.env.VITE_API_KEY;
+import { call } from "./callFetch";
 
 /**
- * Registra un nuevo usuario en el sistema.
- * Añade el rol con ID 2 por defecto a los datos del usuario.
- * 
- * @async
- * @function registerUser
+ * Registra un nuevo usuario con el rol de "atleta".
  * @param {Object} userData - Datos del usuario a registrar.
- * @param {string} userData.username - Nombre de usuario.
- * @param {string} userData.email - Correo electrónico del usuario.
- * @param {string} userData.password - Contraseña del usuario.
- * @returns {Promise<Object>} Los datos de respuesta del backend si el registro fue exitoso.
- * @throws {Error} Si ocurre un error durante el registro.
+ * @returns {Promise<Object>} - Datos del usuario registrado.
  */
-export const registerUser = async (userData) => {
+export const registerUser = (userData) => {
   const userWithRole = { ...userData, rol_id: 2 }; 
-  try {
-    const response = await fetch(`${URL}api/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userWithRole),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      const errorMessage = data.errors 
-        ? Object.values(data.errors).flat().join(', ') // Unir los mensajes de error
-        : data.message || 'Error en el registro';
-      throw new Error(errorMessage);
-    }
-
-    return data;
-  } catch (error) {
-    throw new Error(error.message || 'Error en el registro');
-  }
+  return call('register', 'POST', userWithRole);
 };
 
 /**
- * Inicia sesión de un usuario con las credenciales proporcionadas.
- * 
- * @async
- * @function loginUser
- * @param {Object} userData - Datos del usuario para iniciar sesión.
- * @param {string} userData.email - Correo electrónico del usuario.
- * @param {string} userData.password - Contraseña del usuario.
- * @returns {Promise<Object>} Los datos de respuesta del backend si el inicio de sesión fue exitoso.
- * @throws {Error} Si ocurre un error durante el inicio de sesión.
+ * Inicia sesión del usuario.
+ * @param {Object} userData - Credenciales del usuario (email, password).
+ * @returns {Promise<Object>} - Datos del usuario autenticado.
  */
-export const loginUser = async (userData) => {
-  try {
-    const response = await fetch(`${URL}api/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      const errorMessage = data.errors 
-        ? Object.values(data.errors).flat().join(', ') 
-        : data.message || 'Error en el inicio de sesión';
-      throw new Error(errorMessage);
-    }
-
-    return data;
-  } catch (error) {
-    throw new Error(error.message || 'Error en el inicio de sesión');
-  }
+export const loginUser = (userData) => {
+  return call('login', 'POST', userData);
 };
 
 /**
- * Cierra la sesión del usuario actual enviando un token de autenticación.
- * 
- * @async
- * @function logoutUser
- * @param {string} token - El token de autenticación del usuario.
- * @returns {Promise<Object|null>} Los datos de respuesta del backend si es necesario, o null si el servidor responde con 204 (sin contenido).
- * @throws {Error} Si ocurre un error durante el cierre de sesión.
+ * Cierra la sesión del usuario autenticado.
+ * @param {string} token - Token de autenticación del usuario.
+ * @returns {Promise<Object|null>} - Respuesta del servidor al cerrar sesión.
  */
-export const logoutUser = async (token) => {
-  try {
-    console.log("Enviando petición de logout con token:", token);
-
-    const response = await fetch(`${URL}api/logout`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-
-    let data = null;
-    if (response.status !== 204) { 
-      data = await response.json();
-      console.log("Respuesta del servidor de logout:", {data});
-    }
-
-    if (!response.ok) {
-      throw new Error(data?.errors || 'Error en el cierre de sesión');
-    }
-
-    return data;
-  } catch (error) {
-    console.error("Error durante el logout:", error);
-    throw error;
-  }
+export const logoutUser = (token) => {
+  return call('logout', 'POST', null, token);
 };
 
 /**
- * Obtiene los detalles de un usuario por su ID.
- * 
- * @async
- * @function getUserDetails
- * @param {number} userId - ID del usuario cuyos detalles se desean obtener.
- * @param {string} token - El token de autenticación del usuario.
- * @returns {Promise<Object>} Los datos del usuario obtenidos del backend.
- * @throws {Error} Si ocurre un error al obtener los detalles del usuario.
+ * Obtiene los detalles de un usuario específico.
+ * @param {number} userId - ID del usuario.
+ * @param {string} token - Token de autenticación.
+ * @returns {Promise<Object>} - Detalles del usuario.
  */
-export const getUserDetails = async (userId, token) => {
-  try {
-    const response = await fetch(`${URL}api/users/${userId}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
+export const getUserDetails = (userId, token) => {
+  return call(`users/${userId}`, 'GET', null, token);
+};
 
-    const data = await response.json();
-    console.log('Datos recibidos del backend (getUserDetails):', data);
-    if (!response.ok) {
-      throw new Error(data.message || 'Error al obtener los detalles del usuario');
-    }
+/**
+ * Obtiene todos los roles disponibles.
+ * @returns {Promise<Object>} - Lista de roles.
+ */
+export const getRoles = () => {
+  return call('roles', 'GET');
+};
 
-    return data;
-  } catch (error) {
-    console.error("Error al obtener los detalles del usuario:", error);
-    throw error;
-  }
+/**
+ * Obtiene un rol específico por su ID.
+ * @param {number} roleId - ID del rol.
+ * @returns {Promise<Object>} - Detalles del rol.
+ */
+export const getRoleById = (roleId) => {
+  return call(`roles/${roleId}`, 'GET');
+};
+
+/**
+ * Actualiza la información de un usuario.
+ * @param {Object} userData - Datos a actualizar (first_name, last_name, email, role_id).
+ * @param {string} token - Token de autenticación.
+ * @returns {Promise<Object>} - Datos actualizados del usuario.
+ */
+export const updateUser = (userData, token) => {
+  return call('users/update', 'PATCH', userData, token);
+};
+
+/**
+ * Elimina un usuario autenticado.
+ * @param {string} token - Token de autenticación del usuario.
+ * @returns {Promise<Object|null>} - Respuesta del servidor tras eliminar el usuario.
+ */
+export const deleteUser = (token) => {
+  return call('users/delete', 'DELETE', null, token);
 };

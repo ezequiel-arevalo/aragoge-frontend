@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { Input } from '@/components/form/Input';
 import { InputPassword } from '@/components/form/InputPassword';
 import useAuth from '@/hooks/useAuth';
+import { Link } from 'react-router-dom';
 
 export const RegisterForm = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -59,12 +60,13 @@ export const RegisterForm = () => {
       >
         Registrarse
       </button>
-      <span
-        onClick={() => navigate('/login')}
+
+      <Link
+        to={"/login"}
         className="cursor-pointer mt-4 text-sm block hover:underline mx-auto text-center"
       >
         ¿Tienes cuenta? Accede desde aquí
-      </span>
+      </Link>
     </form>
   );
 };

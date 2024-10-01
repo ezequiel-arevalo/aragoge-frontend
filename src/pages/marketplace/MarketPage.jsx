@@ -4,10 +4,10 @@ import { ProductList } from './components/ProductList';
 import { Box, Flex } from '@chakra-ui/react';
 
 export const MarketPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null); // Estado para la categoría seleccionada
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const handleCategoryChange = (category) => {
-    console.log('Categoría cambiada en MarketPage:', category); // Agregado
+    console.log('Categoría cambiada en MarketPage:', category);
     setSelectedCategory(category);
   };
 
