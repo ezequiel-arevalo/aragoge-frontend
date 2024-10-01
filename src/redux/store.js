@@ -5,6 +5,7 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './user/userSlice';
+import planningsReducer from './plannings/planningsSlice'; // Importa el slice de planificaciones
 
 /**
  * Configura y crea la tienda de Redux.
@@ -22,6 +23,7 @@ import userReducer from './user/userSlice';
 const store = configureStore({
   reducer: {
     user: userReducer,
+    plannings: planningsReducer,
   },
 });
 
