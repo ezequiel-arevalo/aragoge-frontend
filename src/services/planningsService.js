@@ -19,3 +19,13 @@ export const fetchPlannings = async () => {
 export const fetchCategories = async () => {
     return call('categories', 'GET');
 };
+
+/**
+ * Función para obtener una planificación específica por ID desde la API.
+ * 
+ * @param {number} id - ID de la planificación a obtener.
+ * @returns {Promise<Object>} Datos de la planificación.
+ */
+export const fetchPlanningById = async (id) => {
+    return call(`plannings/${id}`, 'GET');
+};

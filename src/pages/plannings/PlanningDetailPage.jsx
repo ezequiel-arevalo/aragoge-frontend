@@ -1,19 +1,9 @@
-import { useState } from 'react';
 import { PlanningDetail } from "./components/PlanningDetail";
-import CustomBreadcrumb from '@/components/breadcrumb/CustomBreadcrumb';
-
 export const PlanningDetailPage = () => {
-  const [planningTitle, setPlanningTitle] = useState('');
-
-  const breadcrumbItems = [
-    { to: "/marketplace", label: "Marketplace", isLink: true },
-  ];
-
   return (
-    <>
-      <CustomBreadcrumb items={breadcrumbItems} currentTitle={planningTitle || "This Planning"} />
-
-      <PlanningDetail setTitle={setPlanningTitle} />
-    </>
+    <section className="mx-auto text-center p-4">
+      <h2 className="text-h2 font-semibold font-title py-4">Planning Detail Page</h2>
+        <PlanningDetail />
+    </section>
   );
 };

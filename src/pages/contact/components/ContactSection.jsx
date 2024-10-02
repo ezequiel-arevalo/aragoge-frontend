@@ -46,6 +46,7 @@ export const ContactSection = () => {
         alignItems="center"
         justifyContent="center"
         className="space-y-4 w-full max-w-3xl p-10"
+        bg="white" p={8} rounded="lg" shadow="md"
       >
         <Input
           type="text"
