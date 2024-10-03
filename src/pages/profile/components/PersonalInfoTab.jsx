@@ -10,8 +10,8 @@ export const PersonalInfoTab = ({ formData, setFormData }) => {
   };
 
   return (
-    <Stack direction="row" spacing={4}>
-      <Box flex={1}>
+    <Stack direction={['column', 'row']} spacing={4}> {/* Cambiar a columna en móviles */}
+      <Box flex={1} w={['100%', 'auto']}>
         <Text fontWeight="bold" mb={2}>First Name</Text>
         <Input
           type="text"
@@ -20,7 +20,7 @@ export const PersonalInfoTab = ({ formData, setFormData }) => {
           borderColor="gray.300"
         />
       </Box>
-      <Box flex={1}>
+      <Box flex={1} w={['100%', 'auto']}>
         <Text fontWeight="bold" mb={2}>Last Name</Text>
         <Input
           type="text"

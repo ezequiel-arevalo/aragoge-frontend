@@ -2,7 +2,7 @@ import { Box, Button, Alert, AlertIcon, AlertTitle, AlertDescription } from '@ch
 
 export const SecurityTab = ({ onDelete }) => {
   return (
-    <Box>
+    <Box mb={4} w={['100%', 'auto']} >
       <Alert status="error" variant="subtle" flexDirection="column" alignItems="center" justifyContent="center" textAlign="center" mt={4}>
         <AlertIcon boxSize="40px" />
         <AlertTitle mt={4} mb={1} fontSize="lg">¡Cuidado!</AlertTitle>

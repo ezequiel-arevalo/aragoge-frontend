@@ -3,7 +3,7 @@ import { Box, Text, Input } from '@chakra-ui/react';
 export const RoleTab = ({ userData }) => {
   return (
     <>
-      <Box mb={4}>
+      <Box mb={4} w={['100%', 'auto']} >
         <Text fontWeight="bold" mb={2}>Role</Text>
         <Input
           type="text"
@@ -12,7 +12,7 @@ export const RoleTab = ({ userData }) => {
           borderColor="gray.300"
         />
       </Box>
-      <Box>
+      <Box mb={4} w={['100%', 'auto']} >
         <Text fontWeight="bold" mb={2}>Role ID</Text>
         <Input
           type="text"
