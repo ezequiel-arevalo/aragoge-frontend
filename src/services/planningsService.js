@@ -1,31 +1,27 @@
-import { call } from './callFetch';
+import { call } from "./callFetch";
 
 /**
  * Función para obtener las planificaciones desde la API.
- * 
- * @returns {Promise<Object>} Datos de las planificaciones.
- * @throws {Error} Si ocurre un error durante la solicitud.
+ * @returns {Promise<Object>} - Datos de las planificaciones.
  */
-export const fetchPlannings = async () => {
-    return call('plannings', 'GET');
+export const fetchPlannings = () => {
+  return call('plannings', 'GET');
 };
 
 /**
- * Función para obtener las categorías desde la API.
- * 
- * @returns {Promise<Object>} Datos de las categorías.
- * @throws {Error} Si ocurre un error durante la solicitud.
- */
-export const fetchCategories = async () => {
-    return call('categories', 'GET');
-};
-
-/**
- * Función para obtener una planificación específica por ID desde la API.
- * 
+ * Función para obtener una planificación específica por ID.
  * @param {number} id - ID de la planificación a obtener.
- * @returns {Promise<Object>} Datos de la planificación.
+ * @returns {Promise<Object>} - Datos de la planificación.
  */
-export const fetchPlanningById = async (id) => {
-    return call(`plannings/${id}`, 'GET');
+export const fetchPlanningById = (id) => {
+  return call(`plannings/${id}`, 'GET');
+};
+
+/**
+ * Obtiene las suscripciones de una planificación específica.
+ * @param {number} planningId - ID de la planificación.
+ * @returns {Promise<Object>} - Lista de suscripciones de la planificación.
+ */
+export const getSubscriptionsByPlanningId = (planningId) => {
+  return call(`plannings/${planningId}/subscriptions`, 'GET');
 };

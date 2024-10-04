@@ -145,7 +145,7 @@ const userSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(updateUserAction.fulfilled, (state, action) => {
+      .addCase(updateUserAction.fulfilled, (state) => {
         state.loading = false;
         state.error = null;
       })

@@ -4,7 +4,7 @@ import { fetchPlannings } from '@/redux/plannings/planningsSlice';
 import { PlanningCard } from './card/PlanningCard';
 import { SimpleGrid, Text } from '@chakra-ui/react';
 
-export const ProductList = ({ selectedCategory }) => {
+export const PlanningList = ({ selectedCategory }) => {
   const dispatch = useDispatch();
   const { items, loading, error } = useSelector((state) => state.plannings);
 

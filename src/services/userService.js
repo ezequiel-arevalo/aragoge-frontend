@@ -6,7 +6,7 @@ import { call } from "./callFetch";
  * @returns {Promise<Object>} - Datos del usuario registrado.
  */
 export const registerUser = (userData) => {
-  const userWithRole = { ...userData, rol_id: 2 }; 
+  const userWithRole = { ...userData, rol_id: 2 };
   return call('register', 'POST', userWithRole);
 };
 
@@ -39,23 +39,6 @@ export const getUserDetails = (userId, token) => {
 };
 
 /**
- * Obtiene todos los roles disponibles.
- * @returns {Promise<Object>} - Lista de roles.
- */
-export const getRoles = () => {
-  return call('roles', 'GET');
-};
-
-/**
- * Obtiene un rol específico por su ID.
- * @param {number} roleId - ID del rol.
- * @returns {Promise<Object>} - Detalles del rol.
- */
-export const getRoleById = (roleId) => {
-  return call(`roles/${roleId}`, 'GET');
-};
-
-/**
  * Actualiza la información de un usuario.
  * @param {Object} userData - Datos a actualizar (first_name, last_name, email, role_id).
  * @param {string} token - Token de autenticación.
@@ -72,4 +55,22 @@ export const updateUser = (userData, token) => {
  */
 export const deleteUser = (token) => {
   return call('users/delete', 'DELETE', null, token);
+};
+
+/**
+ * Obtiene todos los usuarios registrados.
+ * @param {string} token - Token de autenticación.
+ * @returns {Promise<Object>} - Lista de usuarios.
+ */
+export const getAllUsers = (token) => {
+  return call('users', 'GET', null, token);
+};
+
+/**
+ * Obtiene las suscripciones de un usuario específico.
+ * @param {number} userId - ID del usuario.
+ * @returns {Promise<Object>} - Lista de suscripciones del usuario.
+ */
+export const getSubscriptionsByUserId = (userId) => {
+  return call(`users/${userId}/subscriptions`, 'GET');
 };

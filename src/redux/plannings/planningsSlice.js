@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchPlannings as fetchPlanningsService, fetchPlanningById, fetchCategories as fetchCategoriesService } from '@/services/planningsService';
+import { fetchPlannings as fetchPlanningsService, fetchPlanningById } from '@/services/planningsService';
+import { fetchCategories as fetchCategoriesService } from '@/services/adminService';
 
 // Acción asincrónica para obtener todas las planificaciones
 export const fetchPlannings = createAsyncThunk('plannings/fetchPlannings', async () => {

@@ -5,7 +5,7 @@ import { SecurityTab } from './SecurityTab';
 import { RoleTab } from './RoleTab';
 import { PreferencesTab } from './PreferencesTab';
 
-export const ProfileTabs = ({ userData, formData, setFormData, onSave }) => {
+export const ProfileTabs = ({ userData, formData, setFormData, onSave, onDelete }) => {
 
   const handleSave = () => {
     onSave(formData);
@@ -19,47 +19,22 @@ export const ProfileTabs = ({ userData, formData, setFormData, onSave }) => {
         <TabList
           as={Flex}
           justifyContent="space-evenly"
-          flexWrap="wrap" // Para permitir que las pestañas se envuelvan en pantallas pequeñas
+          flexWrap="wrap"
           mb={6}
         >
-          <Tab
-            className="no-global-styles"
-            w={['100%', 'auto']}  // 100% de ancho en mobile, auto en pantallas más grandes
-            textAlign="center"
-            mb={[2, 0]} // Espacio entre los tabs en mobile
-          >
+          <Tab w={['100%', 'auto']} textAlign="center" mb={[2, 0]} className="no-global-styles">
             Personal
           </Tab>
-          <Tab
-            className="no-global-styles"
-            w={['100%', 'auto']}
-            textAlign="center"
-            mb={[2, 0]}
-          >
+          <Tab w={['100%', 'auto']} textAlign="center" mb={[2, 0]} className="no-global-styles">
             Account
           </Tab>
-          <Tab
-            className="no-global-styles"
-            w={['100%', 'auto']}
-            textAlign="center"
-            mb={[2, 0]}
-          >
+          <Tab w={['100%', 'auto']} textAlign="center" mb={[2, 0]} className="no-global-styles">
             Security
           </Tab>
-          <Tab
-            className="no-global-styles"
-            w={['100%', 'auto']}
-            textAlign="center"
-            mb={[2, 0]}
-          >
+          <Tab w={['100%', 'auto']} textAlign="center" mb={[2, 0]} className="no-global-styles">
             Role
           </Tab>
-          <Tab
-            className="no-global-styles"
-            w={['100%', 'auto']}
-            textAlign="center"
-            mb={[2, 0]}
-          >
+          <Tab w={['100%', 'auto']} textAlign="center" mb={[2, 0]} className="no-global-styles">
             Preferences
           </Tab>
         </TabList>
@@ -73,7 +48,7 @@ export const ProfileTabs = ({ userData, formData, setFormData, onSave }) => {
             <AccountTab userData={userData} />
           </TabPanel>
           <TabPanel>
-            <SecurityTab onDelete={handleSave} />
+            <SecurityTab onDelete={onDelete} />
           </TabPanel>
           <TabPanel>
             <RoleTab userData={userData} />

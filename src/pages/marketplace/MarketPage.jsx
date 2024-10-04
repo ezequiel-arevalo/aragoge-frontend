@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchCategories } from '@/redux/plannings/planningsSlice';
 import { FilterBar } from './components/FilterBar';
-import { ProductList } from './components/ProductList';
+import { PlanningList } from './components/PlanningList';
 import { Box, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 
@@ -28,7 +28,7 @@ export const MarketPage = () => {
         </Box>
 
         <Box flex="3" overflow={'hidden'}>
-          <ProductList selectedCategory={selectedCategory} />
+          <PlanningList selectedCategory={selectedCategory} />
         </Box>
       </Flex>
     </section>
