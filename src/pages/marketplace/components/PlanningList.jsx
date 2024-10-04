@@ -4,7 +4,7 @@ import { fetchPlannings } from '@/redux/plannings/planningsSlice';
 import { PlanningCard } from './card/PlanningCard';
 import { SimpleGrid, Text } from '@chakra-ui/react';
 
-export const PlanningList = ({ selectedCategory }) => {
+export const PlanningList = ({ selectedCategory, searchTerm, priceRange }) => {
   const dispatch = useDispatch();
   const { items, loading, error } = useSelector((state) => state.plannings);
 
@@ -17,15 +17,33 @@ export const PlanningList = ({ selectedCategory }) => {
 
   const plannings = items || [];
 
-  // Filtrar planificaciones por categoría seleccionada
-  const filteredPlannings = selectedCategory
+  // Filtrar por categoría seleccionada
+  let filteredPlannings = selectedCategory
     ? plannings.filter((planning) => planning.category_id === parseInt(selectedCategory))
     : plannings;
+
+  // Filtrar por término de búsqueda
+  if (searchTerm) {
+    filteredPlannings = filteredPlannings.filter((planning) =>
+      planning.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+
+  // Filtrar por rango de precio
+  if (priceRange.minPrice || priceRange.maxPrice) {
+    filteredPlannings = filteredPlannings.filter((planning) => {
+      const price = planning.price;
+      return (
+        (!priceRange.minPrice || price >= priceRange.minPrice) &&
+        (!priceRange.maxPrice || price <= priceRange.maxPrice)
+      );
+    });
+  }
 
   return (
     <>
       {filteredPlannings.length === 0 ? (
-        <Text>No hay planificaciones para esta categoría.</Text>
+        <Text>No hay planificaciones que coincidan con los filtros.</Text>
       ) : (
         <SimpleGrid columns={{ sm: 1, md: 2, lg: 4 }} spacing={4}>
           {filteredPlannings.map((planning) => (

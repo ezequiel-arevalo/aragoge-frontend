@@ -1,22 +1,26 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchCategories } from '@/redux/plannings/planningsSlice';
+import { fetchPlannings, fetchCategories } from '@/redux/plannings/planningsSlice'; // Asegúrate de que exista fetchCategories
 import { FilterBar } from './components/FilterBar';
 import { PlanningList } from './components/PlanningList';
 import { Box, Flex } from '@chakra-ui/react';
-import { useState } from 'react';
 
 export const MarketPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [filters, setFilters] = useState({
+    searchTerm: '',
+    selectedCategory: null,
+    priceRange: { minPrice: '', maxPrice: '' }
+  });
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Cargar las categorías al iniciar la página
-    dispatch(fetchCategories());
+    dispatch(fetchPlannings());
+    dispatch(fetchCategories()); // Asegúrate de cargar las categorías
   }, [dispatch]);
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
+  // Función para manejar la aplicación de los filtros
+  const handleFiltersApply = ({ searchTerm, selectedCategory, priceRange }) => {
+    setFilters({ searchTerm, selectedCategory, priceRange });
   };
 
   return (
@@ -24,11 +28,15 @@ export const MarketPage = () => {
       <h2 className="text-h2 font-semibold font-title py-4">Market Page</h2>
       <Flex direction={{ base: 'column', lg: 'row' }} gap={4}>
         <Box flex={{ base: 'none', lg: '1' }} overflow={'hidden'}>
-          <FilterBar onCategoryChange={handleCategoryChange} />
+          <FilterBar onFiltersApply={handleFiltersApply} />
         </Box>
 
         <Box flex="3" overflow={'hidden'}>
-          <PlanningList selectedCategory={selectedCategory} />
+          <PlanningList
+            selectedCategory={filters.selectedCategory}
+            searchTerm={filters.searchTerm}
+            priceRange={filters.priceRange}
+          />
         </Box>
       </Flex>
     </section>
