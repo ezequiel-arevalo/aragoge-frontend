@@ -3,9 +3,9 @@ import { fetchPlannings as fetchPlanningsService, fetchPlanningById } from '@/se
 import { fetchCategories as fetchCategoriesService } from '@/services/adminService';
 
 // Acción asincrónica para obtener todas las planificaciones
-export const fetchPlannings = createAsyncThunk('plannings/fetchPlannings', async () => {
+export const fetchPlannings = createAsyncThunk('plannings/fetchPlannings', async (searchTerm = '') => {
     try {
-        const data = await fetchPlanningsService();
+        const data = await fetchPlanningsService(searchTerm);
         return data;
     } catch (error) {
         throw new Error(error.message || 'Error al cargar las planificaciones');

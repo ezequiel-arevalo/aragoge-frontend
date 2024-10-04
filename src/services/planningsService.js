@@ -4,8 +4,9 @@ import { call } from "./callFetch";
  * Función para obtener las planificaciones desde la API.
  * @returns {Promise<Object>} - Datos de las planificaciones.
  */
-export const fetchPlannings = () => {
-  return call('plannings', 'GET');
+export const fetchPlannings = (searchTerm = '') => {
+  const queryParam = searchTerm ? `?search=${searchTerm}` : '';
+  return call(`plannings${queryParam}`, 'GET');
 };
 
 /**
