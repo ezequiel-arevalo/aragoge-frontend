@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import routes from './routes';
 import { MainLayout } from '@/layout/MainLayout';
 import * as Pages from '@/pages/index';
-import { PlanningDetailPage } from '@/pages/plannings/PlanningDetailPage';
+import { PlanningDetailPage } from '@/pages/marketplace/components/PlanningDetail/PlanningDetailPage';
 
 export const AppRouter = () => {
   const { user, accessToken } = useSelector(state => state.user);

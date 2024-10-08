@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { CategoryFilter } from './filters/CategoryFilter';
-import { SearchBar } from './filters/SearchBar';
-import { PriceFilter } from './filters/PriceFilter';
+import { CategoryFilter } from './CategoryFilter';
+import { SearchBar } from './SearchBar';
+import { PriceFilter } from './PriceFilter';
 import { Button, Flex } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 

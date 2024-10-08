@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchPlannings, fetchCategories } from '@/redux/plannings/planningsSlice'; // Asegúrate de que exista fetchCategories
-import { FilterBar } from './components/FilterBar';
-import { PlanningList } from './components/PlanningList';
+import { FilterBar } from './components/Filters/FilterBar';
+import { PlanningList } from './components/PlanningList/PlanningList';
 import { Box, Flex } from '@chakra-ui/react';
 
 export const MarketPage = () => {

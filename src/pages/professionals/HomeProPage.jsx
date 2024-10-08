@@ -1,4 +1,4 @@
-export const HomePagePro = () => {
+export const HomeProPage = () => {
   return (
     <div>Professional Page</div>
   )

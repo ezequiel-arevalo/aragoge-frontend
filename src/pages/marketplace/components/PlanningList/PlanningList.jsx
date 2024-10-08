@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPlannings } from '@/redux/plannings/planningsSlice';
-import { PlanningCard } from './card/PlanningCard';
+import { PlanningCard } from './PlanningCard';
 import { SimpleGrid, Text } from '@chakra-ui/react';
 
 export const PlanningList = ({ selectedCategory, searchTerm, priceRange }) => {

@@ -1,4 +1,4 @@
-import { PlanningDetail } from "./components/PlanningDetail";
+import { PlanningDetail } from "./PlanningDetail";
 export const PlanningDetailPage = () => {
   return (
     <section className="mx-auto text-center p-4">
