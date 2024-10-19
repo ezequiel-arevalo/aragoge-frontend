@@ -15,6 +15,7 @@ export default {
         'light-focus': '#DA1641',
         'light-gradient1': '#DA1641',
         'light-gradient2': '#C30D35',
+        'primary': '#da1641',
       },
       fontFamily: {
         'font-title': ['Roboto', 'sans-serif'],  // Fuente para títulos

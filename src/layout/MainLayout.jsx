@@ -4,7 +4,8 @@
  * Incluye el header, footer, y el contenido principal renderizado a través de `Outlet`.
  */
 
-import { Header, Footer } from '@/components/index';
+import { Footer } from './Footer';
+import { Header } from './Header';
 import { Outlet } from 'react-router-dom';
 
 /**
@@ -26,14 +27,14 @@ import { Outlet } from 'react-router-dom';
  */
 export const MainLayout = () => {
     return (
-        <div className='flex flex-col min-h-screen'>
+        <>
             <Header />
             
-            <main className='min-h-screen'>
+            <main>
                 <Outlet />
             </main>
             
             <Footer />
-        </div>
+        </>
     );
 };

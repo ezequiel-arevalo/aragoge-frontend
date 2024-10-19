@@ -1,23 +1,35 @@
-import { Button } from "@chakra-ui/react";
-import { AiOutlineRight as ChevronRight } from 'react-icons/ai';
+import { motion } from "framer-motion";
+import { Search } from "lucide-react";
 
-export const HeroSection = () => (
-  <section className="relative min-h-screen flex items-center justify-center text-center text-white">
-    <img
-      src="https://placehold.co/600x400"
-      alt="Entrenadores Deportivos"
-      className="absolute inset-0 z-0 w-full h-full object-cover"
-    />
-    <div className="relative z-10 space-y-4 p-4">
-      <h1 className="text-4xl md:text-6xl font-bold">Conecta con los Mejores Entrenadores Deportivos</h1>
-      <p className="text-xl md:text-2xl">Logra tus metas con entrenadores especializados en boxeo, natación, fisicoculturismo y más.</p>
-      <Button colorScheme='light' size="lg" aria-label="Encuentra tu entrenador">
-        Encuentra tu Entrenador
-        <ChevronRight className="ml-2 h-4 w-4" />
-      </Button>
-      <Button colorScheme='light' variant="outline" className="text-[#DA1641] border-[#DA1641] hover:bg-[#DA1641] hover:text-white" size="lg" aria-label="Regístrate como profesional">
-        Regístrate como Profesional
-      </Button>
-    </div>
-  </section>
-);
+export const HeroSection = () => {
+  return (
+    <section className="relative py-20 overflow-hidden bg-gradient-to-br from-[#da1641] to-[#ff6b6b] opacity-90">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center"
+        >
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            Potencia tu Rendimiento
+          </h1>
+          <p className="text-xl mb-8">
+            Conecta con entrenadores de élite y transforma tu carrera deportiva
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <input
+              type="text"
+              placeholder="Busca tu entrenador ideal..."
+              className="w-full sm:w-96 px-6 py-3 rounded-full text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#da1641]"
+            />
+            <button className="bg-white text-[#da1641] px-6 py-3 rounded-full hover:bg-gray-100 transition duration-300 flex items-center">
+              <Search className="mr-2" />
+              <span>Buscar</span>
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};

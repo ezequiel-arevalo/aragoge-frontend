@@ -1,4 +1,4 @@
-import { ErrorSection } from "./components/ErrorSection"; // Asegúrate de ajustar la ruta si es necesario
+import { ErrorSection } from "./components/ErrorSection";
 
 export const ErrorPage = () => {
 
