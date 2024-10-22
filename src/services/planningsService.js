@@ -26,3 +26,19 @@ export const fetchPlanningById = (id) => {
 export const getSubscriptionsByPlanningId = (planningId) => {
   return call(`plannings/${planningId}/subscriptions`, 'GET');
 };
+
+/**
+ * Obtiene planificaciones sugeridas basadas en una categoría.
+ * @param {number} categoryId - ID de la categoría.
+ * @returns {Promise<Object>} - Lista de planificaciones sugeridas.
+ */
+export const fetchSuggestedPlannings = async (categoryId) => {
+  try {
+    const response = await fetchPlannings();
+    const allPlannings = response.data;
+    const suggestedPlannings = allPlannings.filter(planning => planning.category_id === categoryId);
+    return { data: suggestedPlannings.slice(0, 4) }; // Devuelve solo 4 planificaciones sugeridas
+  } catch (error) {
+    throw new Error('Error al obtener planificaciones sugeridas');
+  }
+};

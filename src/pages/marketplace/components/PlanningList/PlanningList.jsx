@@ -1,35 +1,38 @@
-import { useEffect } from 'react';
+import { useEffect } from 'react'; 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPlannings } from '@/redux/plannings/planningsSlice';
+import { motion, AnimatePresence } from 'framer-motion';
 import { PlanningCard } from './PlanningCard';
-import { SimpleGrid, Text } from '@chakra-ui/react';
+import Loader from '@/components/Loader';
 
 export const PlanningList = ({ selectedCategory, searchTerm, priceRange }) => {
   const dispatch = useDispatch();
-  const { items, loading, error } = useSelector((state) => state.plannings);
+  const { items: plannings, loading, error } = useSelector((state) => state.plannings);
 
   useEffect(() => {
     dispatch(fetchPlannings());
   }, [dispatch]);
 
-  if (loading) return <p>Cargando planificaciones...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) {
+    return <Loader />;
+  }
 
-  const plannings = items || [];
+  if (error) {
+    return (
+      <p className="text-center text-red-500">Error: {error}</p>
+    );
+  }
 
-  // Filtrar por categoría seleccionada
   let filteredPlannings = selectedCategory
     ? plannings.filter((planning) => planning.category_id === parseInt(selectedCategory))
     : plannings;
 
-  // Filtrar por término de búsqueda
   if (searchTerm) {
     filteredPlannings = filteredPlannings.filter((planning) =>
       planning.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }
 
-  // Filtrar por rango de precio
   if (priceRange.minPrice || priceRange.maxPrice) {
     filteredPlannings = filteredPlannings.filter((planning) => {
       const price = planning.price;
@@ -41,16 +44,34 @@ export const PlanningList = ({ selectedCategory, searchTerm, priceRange }) => {
   }
 
   return (
-    <>
-      {filteredPlannings.length === 0 ? (
-        <Text>No hay planificaciones que coincidan con los filtros.</Text>
-      ) : (
-        <SimpleGrid columns={{ sm: 1, md: 2, lg: 4 }} spacing={4}>
-          {filteredPlannings.map((planning) => (
-            <PlanningCard key={planning.id} planning={planning} />
-          ))}
-        </SimpleGrid>
-      )}
-    </>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <AnimatePresence>
+        {filteredPlannings.length === 0 ? (
+          <motion.p
+            className="text-center text-gray-500"
+            transition={{ duration: 0.5 }}
+          >
+            No hay planificaciones que coincidan con los filtros.
+          </motion.p>
+        ) : (
+          filteredPlannings.map((planning) => (
+            <motion.div
+              key={planning.id}
+              layout
+              transition={{ duration: 0.5 }}
+            >
+              <PlanningCard
+                id={planning.id}
+                title={planning.title}
+                description={planning.synopsis}
+                price={planning.price}
+                category={planning.category_name}
+                professional={planning.professional_name}
+              />
+            </motion.div>
+          ))
+        )}
+      </AnimatePresence>
+    </div>
   );
 };

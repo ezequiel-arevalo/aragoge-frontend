@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchPlannings, fetchCategories } from '@/redux/plannings/planningsSlice'; // Asegúrate de que exista fetchCategories
+import { fetchPlannings, fetchCategories } from '@/redux/plannings/planningsSlice';
 import { FilterBar } from './components/Filters/FilterBar';
 import { PlanningList } from './components/PlanningList/PlanningList';
-import { Box, Flex } from '@chakra-ui/react';
+import { HeroSection } from "./components/HeroSection";
 
 export const MarketPage = () => {
   const [filters, setFilters] = useState({
@@ -15,30 +15,42 @@ export const MarketPage = () => {
 
   useEffect(() => {
     dispatch(fetchPlannings());
-    dispatch(fetchCategories()); // Asegúrate de cargar las categorías
+    dispatch(fetchCategories());
   }, [dispatch]);
 
-  // Función para manejar la aplicación de los filtros
   const handleFiltersApply = ({ searchTerm, selectedCategory, priceRange }) => {
     setFilters({ searchTerm, selectedCategory, priceRange });
   };
 
-  return (
-    <section className="mx-auto text-center p-4">
-      <h2 className="text-h2 font-semibold font-title py-4">Market Page</h2>
-      <Flex direction={{ base: 'column', lg: 'row' }} gap={4}>
-        <Box flex={{ base: 'none', lg: '1' }} overflow={'hidden'}>
-          <FilterBar onFiltersApply={handleFiltersApply} />
-        </Box>
+  const handleSearchSubmit = (searchTerm) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      searchTerm
+    }));
+  };
 
-        <Box flex="3" overflow={'hidden'}>
-          <PlanningList
-            selectedCategory={filters.selectedCategory}
-            searchTerm={filters.searchTerm}
-            priceRange={filters.priceRange}
-          />
-        </Box>
-      </Flex>
-    </section>
+  return (
+    <>
+      {/* Pasamos la función de búsqueda al HeroSection */}
+      <HeroSection onSearchSubmit={handleSearchSubmit} />
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* Filtro a la izquierda */}
+            <div className="w-full md:w-1/4">
+              <FilterBar onFiltersApply={handleFiltersApply} />
+            </div>
+            {/* Lista de planificaciones a la derecha */}
+            <div className="w-full md:w-3/4">
+              <PlanningList
+                selectedCategory={filters.selectedCategory}
+                searchTerm={filters.searchTerm}
+                priceRange={filters.priceRange}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 };

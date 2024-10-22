@@ -36,13 +36,6 @@ const routes = [
       isAuth: false,
     },
     {
-      path: '/professionals',
-      name: 'Professionals',
-      component: 'HomePagePro',
-      isAuth: true,
-      role: 3,
-    },
-    {
       path: '/admin',
       name: 'Admin',
       component: 'HomeAdminPage',

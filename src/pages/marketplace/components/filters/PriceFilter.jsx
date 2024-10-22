@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import { Input, Flex } from '@chakra-ui/react';
 
 export const PriceFilter = ({ onPriceChange }) => {
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(100);
+  const [maxPrice, setMaxPrice] = useState(100000);
 
   const handleMinPriceChange = (e) => {
     const value = e.target.value;
-    // Solo actualizar si no es negativo
     if (value === '' || parseFloat(value) >= 0) {
       setMinPrice(value);
       if (value !== '' && parseFloat(value) > parseFloat(maxPrice)) {
@@ -19,7 +17,6 @@ export const PriceFilter = ({ onPriceChange }) => {
 
   const handleMaxPriceChange = (e) => {
     const value = e.target.value;
-    // Solo actualizar si no es negativo
     if (value === '' || parseFloat(value) >= 0) {
       setMaxPrice(value);
       if (value !== '' && parseFloat(value) < parseFloat(minPrice)) {
@@ -30,27 +27,27 @@ export const PriceFilter = ({ onPriceChange }) => {
   };
 
   const handlePriceChange = (min, max) => {
-    // Aplicar el cambio solo si los valores son válidos
     if (min !== '' && max !== '' && parseFloat(min) <= parseFloat(max)) {
       onPriceChange({ minPrice: min, maxPrice: max });
     }
   };
 
   return (
-    <Flex direction="column" gap={2}>
-      <Input
-        placeholder="Precio mínimo"
+    <div className="flex flex-col gap-2">
+      <input
         type="number"
+        placeholder="Precio mínimo"
         value={minPrice}
         onChange={handleMinPriceChange}
+        className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#da1641]"
       />
-      <Input
-        placeholder="Precio máximo"
+      <input
         type="number"
+        placeholder="Precio máximo"
         value={maxPrice}
         onChange={handleMaxPriceChange}
+        className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#da1641]"
       />
-      {/* Se eliminó el botón de aplicar aquí */}
-    </Flex>
+    </div>
   );
 };

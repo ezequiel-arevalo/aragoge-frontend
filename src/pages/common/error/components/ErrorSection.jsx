@@ -16,7 +16,7 @@ export const ErrorSection = () => {
         <p className="text-xl text-gray-600 mb-8">Lo sentimos, la página que estás buscando no existe.</p>
         <Link
           to="/"
-          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-[#da1641] hover:bg-[#b81235] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#da1641]"
+          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white hover:text-white bg-[#da1641] hover:bg-[#b81235] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#da1641]"
         >
           <Home className="w-5 h-5 mr-2" />
           Volver al inicio

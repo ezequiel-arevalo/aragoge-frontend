@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchPlannings as fetchPlanningsService, fetchPlanningById } from '@/services/planningsService';
+import { fetchPlannings as fetchPlanningsService, fetchPlanningById, fetchSuggestedPlannings as fetchSuggestedPlanningsService } from '@/services/planningsService';
 import { fetchCategories as fetchCategoriesService } from '@/services/adminService';
 
 // Acción asincrónica para obtener todas las planificaciones
@@ -32,14 +32,28 @@ export const fetchCategories = createAsyncThunk('categories/fetchCategories', as
     }
 });
 
-const planningsSlice = createSlice({
+// Acción asincrónica para obtener planificaciones sugeridas
+export const fetchSuggestedPlannings = createAsyncThunk(
+    'plannings/fetchSuggestedPlannings',
+    async (categoryId, { rejectWithValue }) => {
+      try {
+        const data = await fetchSuggestedPlanningsService(categoryId);
+        return data;
+      } catch (error) {
+        return rejectWithValue(error.message || 'Error al cargar las planificaciones sugeridas');
+      }
+    }
+  );
+
+  const planningsSlice = createSlice({
     name: 'plannings',
     initialState: {
-        items: [],
-        planningDetail: null,
-        categories: [],
-        loading: false,
-        error: null,
+      items: [],
+      planningDetail: null,
+      suggestedPlannings: [],
+      categories: [],
+      loading: false,
+      error: null,
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -84,6 +98,19 @@ const planningsSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message;
             });
+
+        builder
+        .addCase(fetchSuggestedPlannings.pending, (state) => {
+            state.loading = true;
+        })
+        .addCase(fetchSuggestedPlannings.fulfilled, (state, action) => {
+            state.loading = false;
+            state.suggestedPlannings = action.payload.data;
+        })
+        .addCase(fetchSuggestedPlannings.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        });
     },
 });
 

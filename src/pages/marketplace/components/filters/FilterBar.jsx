@@ -1,40 +1,47 @@
 import { useState } from 'react';
 import { CategoryFilter } from './CategoryFilter';
-import { SearchBar } from './SearchBar';
 import { PriceFilter } from './PriceFilter';
-import { Button, Flex } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
 export const FilterBar = ({ onFiltersApply }) => {
   const categories = useSelector((state) => state.plannings.categories);
 
   // Estados locales para manejar los valores de los filtros
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [priceRange, setPriceRange] = useState({ minPrice: '', maxPrice: '' });
 
   const handleApplyFilters = () => {
     // Enviar los filtros al componente padre
     onFiltersApply({
-      searchTerm,
       selectedCategory,
       priceRange
     });
   };
 
   return (
-    <Flex direction="column" gap={4} p={4} bg={'white'} borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
-      <SearchBar onSearchChange={(search) => setSearchTerm(search)} />
-      <CategoryFilter 
-        categories={categories} 
-        onCategoryChange={(category) => setSelectedCategory(category)} 
-      />
-      <PriceFilter onPriceChange={(range) => setPriceRange(range)} />
+    <div className="bg-white p-6 rounded-xl shadow-lg">
+      <h2 className="text-2xl font-bold mb-4">Filtros</h2>
+
+      {/* Category Filter */}
+      <div className="mb-4">
+        <CategoryFilter 
+          categories={categories} 
+          onCategoryChange={(category) => setSelectedCategory(category)} 
+        />
+      </div>
+
+      {/* Price Filter */}
+      <div className="mb-4">
+        <PriceFilter onPriceChange={(range) => setPriceRange(range)} />
+      </div>
 
       {/* Botón para aplicar todos los filtros */}
-      <Button onClick={handleApplyFilters} colorScheme="light">
+      <button
+        onClick={handleApplyFilters}
+        className="w-full bg-[#da1641] hover:bg-[#C30D35] text-white py-2 rounded-md text-center transition-colors duration-300"
+      >
         Aplicar Filtros
-      </Button>
-    </Flex>
+      </button>
+    </div>
   );
 };

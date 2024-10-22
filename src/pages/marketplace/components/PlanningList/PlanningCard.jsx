@@ -1,87 +1,44 @@
-import { Link } from 'react-router-dom';
-import { Box, Image, Text, Heading, Badge, VStack, Flex, Button } from '@chakra-ui/react';
+import { Link } from "react-router-dom";
 
-export const PlanningCard = ({ planning }) => {
-  const {
-    id,
-    image_id,
-    title,
-    synopsis,
-    description,
-    price,
-    professional_name,
-    category_name,
-  } = planning;
-
+export const PlanningCard = ({ id, title, description, price, category, professional }) => {
   return (
-    <Box
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      boxShadow="lg"
-      transition="all 0.3s"
-      _hover={{ transform: 'translateY(-5px)', boxShadow: 'xl' }}
-      bg="white"
-    >
-      <Box position="relative">
-        <Image
-          src={image_id ? `/api/images/${image_id}` : undefined}
-          alt={title || 'Planning image'}
-          objectFit="cover"
-          width="100%"
-          height="200px"
-          fallbackSrc="https://placehold.co/600x400/png" // Placeholder image
-        />
-        <Badge
-          position="absolute"
-          top="2"
-          right="2"
-          colorScheme="green"
-          fontSize="0.8em"
-          borderRadius="full"
-          px="2"
-          _hover={{color: 'green'}}
+    <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+      <img
+        src="https://placehold.co/400"
+        alt={title}
+        className="w-full h-48 object-cover"
+      />
+      <div className="p-5">
+        {/* Título de la planificación */}
+        <h3 className="font-semibold text-lg text-gray-800 mb-2">{title}</h3>
+
+        {/* Profesional */}
+        <p className="text-gray-500 text-sm">
+          <strong>Profesional:</strong> {professional}
+        </p>
+
+        {/* Descripción corta */}
+        <p className="text-gray-600 text-sm mb-4 line-clamp-2">{description}</p>
+
+
+        {/* Categoría: mantenida en el lugar original */}
+        <p className="text-gray-500 text-sm mb-2">
+          <strong>Categoría:</strong> {category}
+        </p>
+
+        {/* Precio y calificación */}
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-[#da1641] font-bold">Precio: ${price}</span>
+        </div>
+
+        {/* Botón de "Ver más" usando Link de react-router-dom */}
+        <Link
+          to={`/planning/${id}`} // Ruta dinámica para el detalle de la planificación
+          className="mt-4 block w-full bg-[#da1641] hover:bg-[#C30D35] text-white py-2 rounded-md text-center hover:text-white transition-colors duration-300"
         >
-          {category_name}
-        </Badge>
-      </Box>
-      <VStack p={4} align="stretch" spacing={3} minH="250px">
-        <Heading as="h2" size="md" noOfLines={2} minH="50px">
-          {title || 'Untitled Planning'}
-        </Heading>
-        <Text
-          fontSize="sm"
-          color="gray.600"
-          minH="100px" // Altura mínima de 100 píxeles
-          maxH="100px" // Altura máxima de 100 píxeles
-          overflow="hidden" // Ocultar desbordamiento
-          noOfLines={3} // Limitar el número de líneas a 3
-        >
-          {synopsis || description || 'No description available'}
-        </Text>
-        <Flex justify="space-between" align="center">
-          <Text fontSize="xl" fontWeight="bold" color="green.600">
-            ${price?.toFixed(2) ?? '0.00'}
-          </Text>
-          <Text fontSize="sm" color="gray.500">
-            By {professional_name || 'Unknown Professional'}
-          </Text>
-        </Flex>
-        <Link to={`/planning/${id}`} style={{ marginTop: 'auto' }}>
-          <Button
-            width="full"
-            colorScheme="light"
-            variant="solid"
-            size="md"
-            borderRadius="full"
-            boxShadow="md"
-            _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}
-            transition="all 0.2s"
-          >
-            View Details
-          </Button>
+          Ver más
         </Link>
-      </VStack>
-    </Box>
+      </div>
+    </div>
   );
 };
