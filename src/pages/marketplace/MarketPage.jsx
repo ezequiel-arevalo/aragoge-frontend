@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchPlannings, fetchCategories } from '@/redux/plannings/planningsSlice';
+import { fetchMarketplacePlannings, fetchCategories } from '@/redux/plannings/planningsSlice';
 import { FilterBar } from './components/Filters/FilterBar';
 import { PlanningList } from './components/PlanningList/PlanningList';
 import { HeroSection } from "./components/HeroSection";
@@ -14,7 +14,7 @@ export const MarketPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchPlannings());
+    dispatch(fetchMarketplacePlannings());
     dispatch(fetchCategories());
   }, [dispatch]);
 
@@ -31,16 +31,18 @@ export const MarketPage = () => {
 
   return (
     <>
-      {/* Pasamos la función de búsqueda al HeroSection */}
-      <HeroSection onSearchSubmit={handleSearchSubmit} />
+      <HeroSection 
+        title="Encuentra tu entrenador perfecto" 
+        description="Descubre los mejores entrenadores para alcanzar tu máximo potencial"
+        showInput={true} 
+        onSearchSubmit={handleSearchSubmit} 
+      />
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row gap-8">
-            {/* Filtro a la izquierda */}
             <div className="w-full md:w-1/4">
               <FilterBar onFiltersApply={handleFiltersApply} />
             </div>
-            {/* Lista de planificaciones a la derecha */}
             <div className="w-full md:w-3/4">
               <PlanningList
                 selectedCategory={filters.selectedCategory}

@@ -4,6 +4,9 @@ import routes from './routes';
 import { MainLayout } from '@/layout/MainLayout';
 import * as Pages from '@/pages/index';
 import { PlanningDetailPage } from '@/pages/marketplace/components/PlanningDetail/PlanningDetailPage';
+import { CreatePlanningPage } from '@/pages/professionals/create/CreatePlanningPage';
+import { EditPlanningPage } from '@/pages/professionals/edit/EditPlanningPage';
+import { DeletePlanningPage } from '@/pages/professionals/delete/DeletePlanningPage';
 
 export const AppRouter = () => {
   const { user, accessToken } = useSelector(state => state.user);
@@ -30,6 +33,15 @@ export const AppRouter = () => {
 
         {/* Ruta dinámica para planificación */}
         <Route path="/planning/:id" element={<PlanningDetailPage />} />
+
+        {/* Ruta dinámica para planificación */}
+        <Route path="/professional/create" element={<CreatePlanningPage />} />
+
+        {/* Ruta dinámica para planificación */}
+        <Route path="/professional/edit/:id" element={<EditPlanningPage />} />
+        
+        {/* Ruta dinámica para planificación */}
+        <Route path="/professional/delete/:id" element={<DeletePlanningPage />} />
 
         {/* Redirección por defecto */}
         <Route path="/" element={<Navigate to="/home" />} />

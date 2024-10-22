@@ -88,7 +88,7 @@ export const Header = () => {
             <div className="flex items-center gap-4">
               <NavLink to="/profile" className="flex items-center space-x-2 text-gray-600 hover:text-[#da1641]">
                 <LucideUser className="w-6 h-6" />
-                <span>{user.first_name}</span>
+                <span className='no-global-styles no-styles-global'>{user.first_name}</span>
               </NavLink>
               <button
                 onClick={handleLogout}

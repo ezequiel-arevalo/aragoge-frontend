@@ -1,6 +1,6 @@
 import { useEffect } from 'react'; 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPlannings } from '@/redux/plannings/planningsSlice';
+import { fetchMarketplacePlannings } from '@/redux/plannings/planningsSlice';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PlanningCard } from './PlanningCard';
 import Loader from '@/components/Loader';
@@ -10,7 +10,7 @@ export const PlanningList = ({ selectedCategory, searchTerm, priceRange }) => {
   const { items: plannings, loading, error } = useSelector((state) => state.plannings);
 
   useEffect(() => {
-    dispatch(fetchPlannings());
+    dispatch(fetchMarketplacePlannings());
   }, [dispatch]);
 
   if (loading) {

@@ -1,12 +1,11 @@
 import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPlanning, fetchSuggestedPlannings } from '@/redux/plannings/planningsSlice'
+import { fetchPlanning } from '@/redux/plannings/planningsSlice'
 import { ArrowLeft } from 'lucide-react'
 import Loader from '@/components/Loader'
 import { PlanningHero } from './PlanningHero'
 import { PlanningDescription } from './PlanningDescription'
-import { SuggestedPlannings } from './SuggestedPlannings'
 
 export const PlanningDetailPage = () => {
   const { id } = useParams()
@@ -16,12 +15,6 @@ export const PlanningDetailPage = () => {
   useEffect(() => {
     dispatch(fetchPlanning(id))
   }, [dispatch, id])
-
-  useEffect(() => {
-    if (planning && planning.category_id) {
-      dispatch(fetchSuggestedPlannings(planning.category_id))
-    }
-  }, [dispatch, planning])
 
   if (loading) {
     return <Loader />
@@ -53,7 +46,6 @@ export const PlanningDetailPage = () => {
 
         <PlanningHero planning={planning} />
         <PlanningDescription description={planning.description} />
-        <SuggestedPlannings suggestedPlannings={suggestedPlannings} />
       </main>
     </div>
   )

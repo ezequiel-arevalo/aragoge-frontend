@@ -43,6 +43,13 @@ const routes = [
       role: 1,
     },
     {
+      path: '/professional',
+      name: 'Dashboard',
+      component: 'HomeProPage',
+      isAuth: true,
+      role: 3,
+    },
+    {
       path: '*',
       component: 'ErrorPage',
     }
